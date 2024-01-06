@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb"
+import { GridFSBucket, MongoClient } from "mongodb"
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
@@ -28,6 +28,9 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = client.connect()
 }
 
+const myClient = await clientPromise
+const myDB = myClient.db(process.env.MONGO_DB_NAME)
+export const bucket = new GridFSBucket(myDB)
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
 export default clientPromise

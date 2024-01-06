@@ -1,6 +1,7 @@
 "use client"
 
 import { FileDrop } from "react-file-drop"
+import { DropFile } from "./dropFile"
 
 // import { upload_file } from "@/lib/api"
 // import { delay } from "@/lib/utils"
@@ -17,9 +18,7 @@ export function Add() {
 
   return (
     <div className='z-50 w-40 h-40 border-2 border-dashed text-zinc-800 bg-gray-100 rounded bg-opacity-50 cursor-pointer group hover:bg-opacity-90 hover:z-20 duration-200'>
-      <FileDrop
-        className='w-40 h-40 py-2 pr-2 flex flex-col items-center justify-center'
-        onDrop={(files: FileList | null) => handleDropped(files!)}>
+      <DropFile>
         <p className='text-center text-lg uppercase'>Drop Files Here!</p>
         <svg
           className='w-8 h-8 mx-auto my-3 rotate-45 text-blue-500 group-hover:rotate-[135deg] group-hover:text-lime-500 duration-200'
@@ -31,7 +30,7 @@ export function Add() {
         <p className='text-center text-xs mb-2'>
           Refresh page for the new list of files after upload.
         </p>
-      </FileDrop>
+      </DropFile>
     </div>
   )
 }
