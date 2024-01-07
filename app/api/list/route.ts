@@ -2,12 +2,16 @@
 
 import { NextResponse } from "next/server"
 
-import { bucket } from "@/lib/mongodb"
+import { connectToDb } from "@/lib/mongodb"
 import { FileInfoProps } from "@/types"
 
 const base_url = process.env.BASE_URL as string
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
+  const { bucket } = await connectToDb()
+
   const files = await bucket.find().toArray()
   const output: FileInfoProps[] = files.map((file) => {
     return {

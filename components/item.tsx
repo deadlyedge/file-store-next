@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { FileBox, FileCode2, FileText } from "lucide-react"
 
 import { FileInfoProps } from "@/types"
 import { cn, formatBytes, delay } from "@/lib/utils"
-import Image from "next/image"
 
 type ItemProps = {
   params: FileInfoProps
@@ -15,8 +15,6 @@ type ItemProps = {
 export function Item({ params, handleSelect }: ItemProps) {
   const [isCopied, setIsCopied] = useState(false)
 
-  // const image_base = process.env.BASE_URL as string
-  // console.log(image_base)
   const base_url = params.base_url
   const image_path = `/get/${params.id}`
   const image_url = `${base_url}${image_path}`
@@ -46,6 +44,7 @@ export function Item({ params, handleSelect }: ItemProps) {
           alt={params.filename}
           width={320}
           height={320}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className='w-fit'
         />
       )}
