@@ -17,3 +17,8 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
 ## enviroments
 
  - MONGO_URI: {working database}
+
+
+## TODO
+
+ - auto fresh after upload is mess, only work locally with small file, fix it!

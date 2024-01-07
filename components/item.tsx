@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
 import { useState } from "react"
-import { FileCode2, FileText } from "lucide-react"
+import { FileBox, FileCode2, FileText } from "lucide-react"
 
 import { FileInfoProps } from "@/types"
 import { cn, formatBytes, delay } from "@/lib/utils"
@@ -24,6 +24,7 @@ export function Item({ params, handleSelect }: ItemProps) {
   const file_size = formatBytes(params.size)
   const isImage = params.filename.match(/\.(jpg|jpeg|png|gif)$/i)
   const isPDF = params.filename.match(/\.(pdf)$/i)
+  const isZip = params.filename.match(/\.(zip|7z|gz)$/i)
 
   if (!params.selected) params.selected = false
 
@@ -49,7 +50,10 @@ export function Item({ params, handleSelect }: ItemProps) {
         />
       )}
       {isPDF && <FileText className='w-20 h-20 mx-auto' />}
-      {!isImage && !isPDF && <FileCode2 className='w-20 h-20 mx-auto' />}
+      {isZip && <FileBox className='w-20 h-20 mx-auto' />}
+      {!isImage && !isPDF && !isZip && (
+        <FileCode2 className='w-20 h-20 mx-auto' />
+      )}
       <p className='overflow-hidden text-ellipsis hover:overflow-visible'>
         Filename:
         <code className='bg-zinc-200 px-1 rounded'>{params.filename}</code>

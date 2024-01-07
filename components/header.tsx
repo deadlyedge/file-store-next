@@ -8,9 +8,9 @@ const whisper = Whisper({ subsets: ["latin"], weight: "400" })
 export function Header() {
   return (
     <div>
-      <div className='fixed left-0 top-0 z-50 flex bg-gray-800 bg-opacity-70'>
+      {/* <div className='fixed left-0 top-0 z-50 flex bg-gray-800 bg-opacity-70'>
         <Add />
-      </div>
+      </div> */}
       <div>
         <div className='w-52 h-32 right-0 top-0 fixed bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 background-animate bg-opacity-20'></div>
         <div className='w-80 h-20 right-0 top-0 fixed bg-gray-50 bg-opacity-20'></div>
