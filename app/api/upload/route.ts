@@ -1,9 +1,11 @@
+// upload file to mongodb
+
 import { NextResponse } from "next/server"
 import { Readable } from "stream"
 
 import { bucket } from "@/lib/mongodb"
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   try {
     const body = await req.formData()
     const file = body.get("file") as File

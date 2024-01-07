@@ -1,3 +1,5 @@
+// get file from mongodb, in 'json' or 'download' or just image data
+
 import { NextRequest, NextResponse } from "next/server"
 import { ObjectId } from "mongodb"
 
@@ -12,6 +14,9 @@ export async function GET(
     const output_format = searchParams.get("output")
     const fileObjectId = new ObjectId(params.fileId)
     const file = (await bucket.find(fileObjectId).toArray()).at(0)
+
+    if (!file) return new NextResponse("File Not Found", { status: 404 })
+
     const fileStream = bucket.openDownloadStream(
       fileObjectId
     ) as unknown as ReadableStream

@@ -4,7 +4,13 @@ if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
 }
 
-const uri = process.env.MONGODB_URI
+const db_uri = process.env.MONGODB_URI
+const db_name = process.env.MONGO_DB_NAME
+
+if (!db_name || !db_uri) {
+  throw new Error('Invalid/Missing environment variable: "MONGO_DB_NAME" or "MONGODB_URI"')
+}
+
 const options = {}
 
 let client
@@ -18,18 +24,18 @@ if (process.env.NODE_ENV === "development") {
   }
 
   if (!globalWithMongo._mongoClientPromise) {
-    client = new MongoClient(uri, options)
+    client = new MongoClient(db_uri, options)
     globalWithMongo._mongoClientPromise = client.connect()
   }
   clientPromise = globalWithMongo._mongoClientPromise
 } else {
   // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri, options)
+  client = new MongoClient(db_uri, options)
   clientPromise = client.connect()
 }
 
 const myClient = await clientPromise
-const myDB = myClient.db(process.env.MONGO_DB_NAME)
+const myDB = myClient.db(db_name)
 export const bucket = new GridFSBucket(myDB)
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
