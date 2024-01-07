@@ -1,7 +1,10 @@
 "use client"
 
+import axios from "axios"
 import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
+
+import { delay } from "@/lib/utils"
 
 type DropFileProps = {
   children: React.ReactNode
@@ -10,18 +13,13 @@ type DropFileProps = {
 export function DropFile({ children }: DropFileProps) {
   const onDrop = useCallback((acceptedFiles: any) => {
     // Do something with the files
-    // console.log(acceptedFiles)
-    acceptedFiles.forEach((file: any) => {
-      const reader = new FileReader()
-      reader.onabort = () => console.log("file reading was aborted")
-      reader.onerror = () => console.log("file reading has failed")
-      reader.onload = () => {
-        // Do whatever you want with the file contents
-        const binaryStr = reader.result
-        console.log(binaryStr)
-      }
-      reader.readAsArrayBuffer(file)
+    acceptedFiles.forEach(async (file: File) => {
+      // upload file to mongodb
+      const formData = new FormData()
+      formData.append("file", file)
+      await axios.post("/api/upload", formData)
     })
+    delay(1000).then(() => window.location.reload())
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
