@@ -17,3 +17,5 @@ export async function POST(req: Request) {
     return new NextResponse("Delete Failed.", { status: 500 })
   }
 }
+
+export const runtime = 'edge'
