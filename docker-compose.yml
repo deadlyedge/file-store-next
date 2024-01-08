@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+
+  file_server:
+    image: "xdream76/file-server-next"
+    container_name: "file-server-next"
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      TZ: Asia/Hong_Kong
+      BASE_URL: https://file.zick.me
+      MONGODB_URI: 
+      MONGO_DB_NAME: file_server_next
+      
