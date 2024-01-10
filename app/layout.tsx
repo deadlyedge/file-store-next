@@ -1,6 +1,11 @@
 import type { Metadata } from "next"
 import { Nunito } from "next/font/google"
+import { ClerkProvider } from "@clerk/nextjs"
+import { zhCN } from "@clerk/localizations"
+import { dark } from "@clerk/themes"
+
 import "./globals.css"
+
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
 
@@ -17,11 +22,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en' className='dark'>
-      <body className={cn(nunito.className, "antialiased min-h-screen")}>
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <ClerkProvider
+      localization={zhCN}
+      appearance={{
+        baseTheme: dark,
+      }}>
+      <html lang='en' className='dark'>
+        <body className={cn(nunito.className, "antialiased min-h-screen")}>
+          {children}
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

@@ -1,13 +1,6 @@
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
-import { List } from "@/components/list";
+import { Button } from "@/components/ui/button";
 
-export default function Home() {
-  return (
-    <>
-      <Header />
-      <List />
-      <Footer />
-    </>
-  )
+export default function HomePage() {
+
+  return <a href="/list"><Button>List</Button></a>
 }

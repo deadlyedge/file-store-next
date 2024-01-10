@@ -1,4 +1,5 @@
 import { Whisper } from "next/font/google"
+import { UserButton } from "@clerk/nextjs"
 
 import { cn } from "@/lib/utils"
 
@@ -8,7 +9,11 @@ export const Header = () => {
   return (
     <>
       <div className='w-52 h-32 right-0 top-0 fixed bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 background-animate bg-opacity-20'></div>
-      <div className='w-full h-20 right-0 top-0 fixed z-10 bg-zinc-500/40'></div>
+      <div className='w-full h-20 right-0 top-0 fixed z-10 bg-zinc-500/40'>
+        <div className='ml-[390px] mt-1 p-2 w-36 border-zinc-500 h-16 text-zinc-200'>
+          <UserButton afterSignOutUrl='/' showName />
+        </div>
+      </div>
       <div className='w-40 h-40 right-0 top-0 fixed bg-gray-50 bg-opacity-20'></div>
       <section
         className={cn(
