@@ -38,11 +38,11 @@ export const List = () => {
 
   return (
     <>
-      <div className='fixed left-0 top-0 z-50 flex bg-gray-800 bg-opacity-70'>
+      <div className='fixed left-0 top-0 z-50 bg-gray-800 bg-opacity-70'>
         <Add getData={getData} />
       </div>
 
-      <div className='flex flex-wrap items-start mt-40 pt-2'>
+      <div className='flex flex-wrap items-start mt-20 pt-1'>
         {fileList.map((file: FileInfoProps, index) => (
           <Item key={index} params={file} handleSelect={handleSelect} />
         ))}
