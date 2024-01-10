@@ -10,7 +10,7 @@ type DropFileProps = {
   children: React.ReactNode
 }
 
-export function DropFile({ children }: DropFileProps) {
+export const DropFile = ({ children }: DropFileProps) => {
   const onDrop = useCallback((acceptedFiles: any) => {
     // Do something with the files
     acceptedFiles.forEach(async (file: File) => {

@@ -14,6 +14,8 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
  - mongodb
  - nextjs
 
+sharp should be installed and the version must NOT be 0.33! `npm install sharp@0.32.6`
+
 ## enviroments
 
  - MONGO_URI: {working database}
@@ -22,3 +24,4 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
 ## TODO
 
  - auto fresh after upload is mess, only work locally with small file, fix it!
+ - add auth

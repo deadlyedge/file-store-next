@@ -5,10 +5,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+/**
+ * Little delay util.
+ * @param ms
+ * @returns a custom delay Promise
+ */
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms))
 
-export function formatBytes(bytes: number, decimals = 1) {
+/**
+ * transform number to a string like 'MB, KB...'
+ * @param bytes
+ * @param decimals
+ * @returns {string}
+ */
+export const formatBytes = (bytes: number, decimals = 1) => {
   if (!+bytes) return "0 Bytes"
 
   const k = 1024

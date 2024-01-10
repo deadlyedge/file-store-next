@@ -14,11 +14,14 @@ if (!DB_NAME || !MONGODB_URI) {
   )
 }
 
-/* 
-  Initializes the connection to mongodb and creates a GridFSBucket
-  Once connected, it will use the cached connection.
-*/
-export async function connectToDb() {
+/**
+ *  Initializes the connection to mongodb and creates a GridFSBucket
+ *  Once connected, it will use the cached connection.
+ */
+export const connectToDb = async (): Promise<{
+  client: MongoClient
+  bucket: GridFSBucket
+}> => {
   if (global.client) {
     return {
       client: global.client,
@@ -34,8 +37,12 @@ export async function connectToDb() {
   return { client, bucket: bucket! }
 }
 
-// utility to check if file exists
-export async function fileExists(filename: string): Promise<boolean> {
+/**
+ * utility to check if file exists
+ * @param filename
+ * @returns {Promise<boolean>}
+ */
+export const fileExists = async (filename: string): Promise<boolean> => {
   const { client } = await connectToDb()
   const count = await client
     .db()

@@ -5,7 +5,7 @@ import { Readable } from "stream"
 
 import { connectToDb } from "@/lib/mongodb"
 
-export async function POST(req: Request) {
+export const POST = async (req: Request) => {
   try {
     const body = await req.formData()
     const { bucket } = await connectToDb()

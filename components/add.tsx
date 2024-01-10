@@ -10,7 +10,7 @@ type AddProps = {
   getData: () => Promise<void>
 }
 
-export function Add({ getData }: AddProps) {
+export const Add = ({ getData }: AddProps) => {
   const onDrop = useCallback(
     async (acceptedFiles: any) => {
       // Do something with the files

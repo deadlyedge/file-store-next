@@ -7,7 +7,7 @@ import { Add } from "./add"
 import { Item } from "./item"
 import { FileInfoProps } from "@/types"
 
-export function List() {
+export const List = () => {
   const [fileList, setFileList] = useState<FileInfoProps[]>([])
 
   const getData = async () => {

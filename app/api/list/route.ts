@@ -7,9 +7,9 @@ import { FileInfoProps } from "@/types"
 
 const base_url = process.env.BASE_URL as string
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic"
 
-export async function GET() {
+export const GET = async () => {
   const { bucket } = await connectToDb()
 
   const files = await bucket.find().toArray()

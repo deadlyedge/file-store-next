@@ -12,7 +12,7 @@ type ItemProps = {
   handleSelect: (id: string) => void
 }
 
-export function Item({ params, handleSelect }: ItemProps) {
+export const Item = ({ params, handleSelect }: ItemProps) => {
   const [isCopied, setIsCopied] = useState(false)
 
   const base_url = params.base_url
@@ -44,7 +44,7 @@ export function Item({ params, handleSelect }: ItemProps) {
           alt={params.filename}
           width={320}
           height={320}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           className='w-fit'
         />
       )}

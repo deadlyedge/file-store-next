@@ -5,14 +5,14 @@ import { ObjectId } from "mongodb"
 
 import { connectToDb } from "@/lib/mongodb"
 
-export async function GET(
+export const GET = async (
   req: NextRequest,
   { params }: { params: { fileId: string } }
-) {
+) => {
   try {
     const searchParams = req.nextUrl.searchParams
     const { bucket } = await connectToDb()
-    
+
     const output_format = searchParams.get("output")
     const fileObjectId = new ObjectId(params.fileId)
     const file = (await bucket.find(fileObjectId).toArray()).at(0)
