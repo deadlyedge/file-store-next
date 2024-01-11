@@ -35,7 +35,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col rounded-lg shadow-md text-zinc-700 text-xs m-2 p-2 w-72 hover:scale-105 hover:z-20 transition-transform",
+        "flex flex-col rounded-lg shadow-md text-zinc-700 text-xs m-2 p-2 w-72 hover:scale-105 transition-transform",
         params.selected ? "bg-zinc-300/50" : "bg-white"
       )}>
       {isImage && (

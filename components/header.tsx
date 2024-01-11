@@ -2,6 +2,7 @@ import { Whisper } from "next/font/google"
 import { UserButton } from "@clerk/nextjs"
 
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 const whisper = Whisper({ subsets: ["latin"], weight: "400" })
 
@@ -12,6 +13,7 @@ export const Header = () => {
       <div className='w-full h-20 right-0 top-0 fixed z-10 bg-zinc-500/40'>
         <div className='ml-[390px] mt-1 p-2 w-36 border-zinc-500 h-16 text-zinc-200'>
           <UserButton afterSignOutUrl='/' showName />
+          <Button size='sm' variant='link'>API TOKEN</Button>
         </div>
       </div>
       <div className='w-40 h-40 right-0 top-0 fixed bg-gray-50 bg-opacity-20'></div>
