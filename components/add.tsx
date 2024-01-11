@@ -1,34 +1,42 @@
 "use client"
 
 import axios from "axios"
-import { useCallback, useState, useTransition } from "react"
+import { useCallback, useEffect, useState, useTransition } from "react"
 import { useDropzone } from "react-dropzone"
 import { BeatLoader } from "react-spinners"
 
 import { delay } from "@/lib/utils"
 import { upload } from "@/actions/upload"
+import { get } from "http"
 
 type AddProps = {
   getData: () => Promise<void>
 }
 
 export const Add = ({ getData }: AddProps) => {
-  const [isPending, setIsPending] = useState(false)
+  const [isPending, startTransition] = useTransition()
 
-  const onDrop = useCallback(
-    (acceptedFiles: any) => {
-      // Do something with the files
+  const onDrop = (acceptedFiles: any) => {
+    // Do something with the files
+    startTransition(() => {
       acceptedFiles.forEach((file: File) => {
-        setIsPending(true)
-        // upload file to mongodb
         const formData = new FormData()
         formData.append("file", file)
-        axios.post("/api/upload", formData).then(() => setIsPending(false))
+        upload(formData)
+          .then(() => getData())
       })
-      delay(1000).then(() => getData())
-    },
-    [getData]
-  )
+    })
+  }
+
+  //   acceptedFiles.forEach((file: File) => {
+  //     // setIsPending(true)
+  //     // upload file to mongodb
+  //     const formData = new FormData()
+  //     formData.append("file", file)
+  //     axios.post("/api/upload", formData)
+  //   })
+  //   delay(1000).then(() => getData())
+  // }
   // const [isPending, startTransition] = useTransition()
 
   // const onDrop = (acceptedFiles: any) => {

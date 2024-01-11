@@ -17,20 +17,17 @@ export const upload = async (formData: FormData) => {
     chunkSizeBytes: 1024 * 1024,
   })
 
+  // Write file data to stream
+  readableStream.pipe(uploadStream)
   // Handle events on the upload stream
   uploadStream.on("error", (error) => {
     console.error(error)
-    return false
   })
 
   uploadStream.on("finish", () => {
     console.log("File uploaded successfully")
-    // Perform any additional actions here, if needed
-    return true
-  })
 
-  // Write file data to stream
-  await new Promise(() => {
-    readableStream.pipe(uploadStream)
+    // Perform any additional actions here, if needed
+    return
   })
 }
