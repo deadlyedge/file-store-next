@@ -50,7 +50,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
           alt={params.filename}
           width={320}
           height={320}
-          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 50vw'
           className='w-fit'
         />
       )}
