@@ -1,11 +1,9 @@
 "use client"
 
-import axios from "axios"
-import { useCallback, useEffect, useState, useTransition } from "react"
+import { useTransition } from "react"
 import { useDropzone } from "react-dropzone"
 import { BeatLoader } from "react-spinners"
 
-import { delay } from "@/lib/utils"
 import { upload } from "@/actions/upload"
 
 type AddProps = {

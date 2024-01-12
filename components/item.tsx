@@ -6,7 +6,7 @@ import { FileBox, FileCode2, FileText } from "lucide-react"
 
 import { FileInfoProps } from "@/types"
 import { cn, formatBytes, delay } from "@/lib/utils"
-import { useToast } from "./ui/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 
 type ItemProps = {
   params: FileInfoProps
@@ -15,7 +15,7 @@ type ItemProps = {
 
 export const Item = ({ params, handleSelect }: ItemProps) => {
   const [isCopied, setIsCopied] = useState(false)
-  const {toast} = useToast()
+  const { toast } = useToast()
 
   const base_url = params.base_url
   const image_path = `/get/${params.id}`
@@ -41,7 +41,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col outline shadow-md text-zinc-700 text-xs m-2 p-2 w-72 hover:outline-blue-300 hover:outline-2 transition-transform",
+        "flex flex-col outline shadow-md text-zinc-700 text-xs m-2 p-2 w-72 hover:outline-blue-300 hover:outline-4 transition-all",
         params.selected ? "bg-zinc-300/50" : "bg-white"
       )}>
       {isImage && (

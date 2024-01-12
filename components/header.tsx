@@ -3,6 +3,7 @@ import { UserButton } from "@clerk/nextjs"
 
 import { cn } from "@/lib/utils"
 import { TokenDialog } from "./tokenDialog"
+import { Status } from "./status"
 
 const whisper = Whisper({ subsets: ["latin"], weight: "400" })
 
@@ -30,6 +31,7 @@ export const Header = () => {
           <div className='font-sans text-xl mt-0 float-right'>NexTS</div>
         </div>
       </section>
+      <Status />
     </>
   )
 }
