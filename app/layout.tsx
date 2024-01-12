@@ -27,7 +27,7 @@ export default function RootLayout({
       appearance={{
         baseTheme: dark,
       }}>
-      <html lang='en' className='dark'>
+      <html lang='en' className='dark hide_scrollbar'>
         <body className={cn(nunito.className, "antialiased min-h-screen")}>
           {children}
           <Toaster />

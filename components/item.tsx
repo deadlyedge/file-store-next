@@ -6,6 +6,7 @@ import { FileBox, FileCode2, FileText } from "lucide-react"
 
 import { FileInfoProps } from "@/types"
 import { cn, formatBytes, delay } from "@/lib/utils"
+import { useToast } from "./ui/use-toast"
 
 type ItemProps = {
   params: FileInfoProps
@@ -14,6 +15,7 @@ type ItemProps = {
 
 export const Item = ({ params, handleSelect }: ItemProps) => {
   const [isCopied, setIsCopied] = useState(false)
+  const {toast} = useToast()
 
   const base_url = params.base_url
   const image_path = `/get/${params.id}`
@@ -29,13 +31,17 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
   const copyText = (text: string) => {
     navigator.clipboard.writeText(text)
     setIsCopied(true)
+    toast({
+      title: "Link Copied",
+      description: text,
+    })
     delay(2000).then(() => setIsCopied(false))
   }
 
   return (
     <div
       className={cn(
-        "flex flex-col rounded-lg shadow-md text-zinc-700 text-xs m-2 p-2 w-72 hover:scale-105 transition-transform",
+        "flex flex-col outline shadow-md text-zinc-700 text-xs m-2 p-2 w-72 hover:outline-blue-300 hover:outline-2 transition-transform",
         params.selected ? "bg-zinc-300/50" : "bg-white"
       )}>
       {isImage && (

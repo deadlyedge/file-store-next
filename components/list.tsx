@@ -1,19 +1,25 @@
 "use client"
 
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 
 import { Add } from "./add"
 import { Item } from "./item"
 import { FileInfoProps } from "@/types"
 import { deleteFiles } from "@/actions/delete"
+import { listFiles } from "@/actions/list"
+import { useToast } from "./ui/use-toast"
 
 export const List = () => {
   const [fileList, setFileList] = useState<FileInfoProps[]>([])
+  const { toast } = useToast()
 
   const getData = async () => {
-    const res = await axios.get("/api/list")
-    setFileList(res.data)
+    // USE API route
+    // const res = await axios.get("/api/list")
+    // setFileList(res.data)
+
+    // USE SERVER ACTIONS
+    setFileList(await listFiles())
   }
 
   const selected = fileList
@@ -38,6 +44,20 @@ export const List = () => {
   const handleDelete = () => {
     deleteFiles(selected).then(() => getData())
   }
+
+  useEffect(() => {
+    if (selected.length > 0) {
+      toast({
+        title: "Select Files",
+        description: `${selected.length} file(s) selected.`,
+      })
+    } else {
+      toast({
+        title: "File List",
+        description: `${fileList.length} file(s) in database.`,
+      })
+    }
+  }, [fileList.length, selected.length, toast])
 
   useEffect(() => {
     getData()

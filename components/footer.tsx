@@ -10,7 +10,7 @@ import {
 export const Footer = () => {
   return (
     <Drawer>
-      <DrawerTrigger className='fixed w-20 top-5 right-72 block z-40 bg-zinc-400/50 p-3 shadow-md transition duration-500 hover:scale-125 hover:bg-amber-100 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-sm text-zinc-200 px-5 py-2.5'>
+      <DrawerTrigger className='fixed w-20 top-5 right-72 block z-40 bg-zinc-400/50 p-3 shadow-md transition duration-500 hover:text-zinc-700 hover:scale-125 hover:bg-amber-100  font-bold rounded-lg text-sm text-zinc-200 px-5 py-2.5'>
         About
       </DrawerTrigger>
       <DrawerContent>
