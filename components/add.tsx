@@ -7,7 +7,6 @@ import { BeatLoader } from "react-spinners"
 
 import { delay } from "@/lib/utils"
 import { upload } from "@/actions/upload"
-import { get } from "http"
 
 type AddProps = {
   getData: () => Promise<void>
@@ -16,38 +15,34 @@ type AddProps = {
 export const Add = ({ getData }: AddProps) => {
   const [isPending, startTransition] = useTransition()
 
+  // USE SERVER ACTIONS
   const onDrop = (acceptedFiles: any) => {
-    // Do something with the files
+    const formData = new FormData()
+    const files: File[] = Array.from(acceptedFiles ?? [])
+    for (const file of files) {
+      formData.append(file.name, file)
+    }
+
     startTransition(() => {
-      acceptedFiles.forEach((file: File) => {
-        const formData = new FormData()
-        formData.append("file", file)
-        upload(formData)
-          .then(() => getData())
+      upload(formData).then(() => {
+        getData()
       })
     })
   }
 
-  //   acceptedFiles.forEach((file: File) => {
-  //     // setIsPending(true)
-  //     // upload file to mongodb
-  //     const formData = new FormData()
-  //     formData.append("file", file)
-  //     axios.post("/api/upload", formData)
-  //   })
-  //   delay(1000).then(() => getData())
-  // }
-  // const [isPending, startTransition] = useTransition()
-
+  // USE API route
   // const onDrop = (acceptedFiles: any) => {
+  //   const formData = new FormData()
+  //   const files: File[] = Array.from(acceptedFiles ?? [])
+  //   for (const file of files) {
+  //     formData.append(file.name, file)
+  //   }
+
   //   startTransition(() => {
-  //     acceptedFiles.forEach(async (file: File) => {
-  //       const formData = new FormData()
-  //       formData.append("file", file)
-  //       await upload(formData)
+  //     axios.post("/api/upload", formData).then(() => {
+  //       getData()
   //     })
   //   })
-  //   getData()
   // }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

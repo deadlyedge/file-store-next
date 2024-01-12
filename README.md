@@ -16,6 +16,8 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
 
 sharp should be installed and the version must NOT be 0.33! `npm install sharp@0.32.6`
 
+use both API routes and server actions for practise.
+
 ## enviroments
 
  - MONGO_URI: {working database}

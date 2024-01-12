@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { Add } from "./add"
 import { Item } from "./item"
 import { FileInfoProps } from "@/types"
+import { deleteFiles } from "@/actions/delete"
 
 export const List = () => {
   const [fileList, setFileList] = useState<FileInfoProps[]>([])
@@ -27,9 +28,15 @@ export const List = () => {
     )
   }
 
-  const handleDelete = async () => {
-    await axios.post("/api/delete", { fileIds: selected })
-    getData()
+  // USE API route
+  // const handleDelete = async () => {
+  //   await axios.post("/api/delete", { fileIds: selected })
+  //   getData()
+  // }
+
+  // USE SERVER ACTIONS
+  const handleDelete = () => {
+    deleteFiles(selected).then(() => getData())
   }
 
   useEffect(() => {

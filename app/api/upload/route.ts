@@ -7,23 +7,46 @@ import { connectToDb } from "@/lib/mongodb"
 
 export const POST = async (req: Request) => {
   try {
-    const body = await req.formData()
+    const data = await req.formData()
     const { bucket } = await connectToDb()
 
-    const file = body.get("file") as File
-    const buffer = Buffer.from(await file.arrayBuffer())
-    const readableStream = Readable.from(buffer)
+    const files: File[] = []
+    let counter = 0
+    data.forEach((value) => files.push(value as File))
 
-    // upload file to mongodb
-    const uploadStream = bucket.openUploadStream(file.name, {
-      chunkSizeBytes: 1024 * 1024,
+    // map through all the entries
+    files.forEach(async (file) => {
+      const filename = file.name
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const stream = Readable.from(buffer)
+
+      const uploadStream = bucket.openUploadStream(filename, {
+        // make sure to add content type so that it will be easier to set later.
+        chunkSizeBytes: 1024 * 1024,
+        contentType: file.type,
+        metadata: {}, //add your metadata here if any
+      })
+
+      stream.on("close", () => {
+        counter += 1
+      })
+
+      // pipe the readable stream to a writeable stream to save it to the database
+      stream.pipe(uploadStream)
     })
 
-    // Write file data to stream
-    await readableStream.pipe(uploadStream)
+    // took me four days form this, have to MARK here!
+    while (counter < files.length) {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      console.log("hold a second...")
+    }
 
-    return new NextResponse("File uploaded successfully", { status: 200 })
+    console.log(`[UPLOAD_SUCCESS:] ${files.length} files uploaded.`, )
+
+    // return the response after all the entries have been processed.
+    return new NextResponse("success", { status: 200 })
   } catch (error) {
-    return new NextResponse("Error uploading file", { status: 500 })
+    console.log("[UPLOAD_FAIL:]", error)
+    return new NextResponse("error", { status: 500 })
   }
 }
