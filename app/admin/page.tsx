@@ -39,6 +39,7 @@ export default function AdminPage() {
   const handleDelete = (dbName: string) => {
     dropDb(dbName).then(() => getInfo())
   }
+  
   return (
     <div className='flex flex-col justify-center items-center'>
       <div className='flex flex-row justify-center items-center gap-4 my-4'>
