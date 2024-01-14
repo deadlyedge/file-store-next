@@ -1,53 +1,45 @@
 import { GridFSBucket, MongoClient } from "mongodb"
 
-declare global {
-  var client: MongoClient | null
-  var bucket: GridFSBucket | null
+if (!process.env.MONGODB_URI) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
 }
 
-const MONGODB_URI = process.env.MONGODB_URI as string
-const DB_NAME = process.env.MONGO_DB_NAME as string
+const uri = process.env.MONGODB_URI
+const DEFAULT_DB_NAME = process.env.MONGO_DB_NAME as string
 
-if (!DB_NAME || !MONGODB_URI) {
-  console.log(
-    'Invalid/Missing environment variable: "MONGO_DB_NAME" or "MONGODB_URI"'
-  )
-}
+const options = {}
 
-/**
- *  Initializes the connection to mongodb and creates a GridFSBucket
- *  Once connected, it will use the cached connection.
- */
-export const connectToDb = async (): Promise<{
-  client: MongoClient
-  bucket: GridFSBucket
-}> => {
-  if (global.client) {
-    return {
-      client: global.client,
-      bucket: global.bucket!,
-    }
+let client
+let clientPromise: Promise<MongoClient>
+
+if (process.env.NODE_ENV === "development") {
+  // In development mode, use a global variable so that the value
+  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  let globalWithMongo = global as typeof globalThis & {
+    _mongoClientPromise?: Promise<MongoClient>
   }
 
-  const client = (global.client = new MongoClient(MONGODB_URI, {}))
-  const bucket = (global.bucket = new GridFSBucket(client.db(DB_NAME)))
-
-  await global.client.connect()
-  console.log("Connected to the Database ")
-  return { client, bucket: bucket! }
+  if (!globalWithMongo._mongoClientPromise) {
+    client = new MongoClient(uri, options)
+    globalWithMongo._mongoClientPromise = client.connect()
+  }
+  clientPromise = globalWithMongo._mongoClientPromise
+} else {
+  // In production mode, it's best to not use a global variable.
+  client = new MongoClient(uri, options)
+  clientPromise = client.connect()
 }
 
-/**
- * utility to check if file exists
- * @param filename
- * @returns {Promise<boolean>}
- */
-export const fileExists = async (filename: string): Promise<boolean> => {
-  const { client } = await connectToDb()
-  const count = await client
-    .db()
-    .collection("images.files")
-    .countDocuments({ filename })
+// Export a module-scoped MongoClient promise. By doing this in a
+// separate module, the client can be shared across functions.
+export default clientPromise
 
-  return !!count
+export const connectToBucket = async (dbName: string | null) => {
+  const client = await clientPromise
+
+  const changeDotInDbName = dbName?.replace(".", "_") || DEFAULT_DB_NAME
+
+  const bucket = new GridFSBucket(client.db(changeDotInDbName))
+
+  return bucket
 }

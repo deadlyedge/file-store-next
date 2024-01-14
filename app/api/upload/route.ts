@@ -3,12 +3,12 @@
 import { NextResponse } from "next/server"
 import { Readable } from "stream"
 
-import { connectToDb } from "@/lib/mongodb"
+import { connectToBucket } from "@/lib/mongodb"
 
 export const POST = async (req: Request) => {
   try {
     const data = await req.formData()
-    const { bucket } = await connectToDb()
+    const { bucket } = await connectToBucket()
 
     const files: File[] = []
     let counter = 0

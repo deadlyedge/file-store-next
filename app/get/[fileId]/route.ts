@@ -3,7 +3,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ObjectId } from "mongodb"
 
-import { connectToDb } from "@/lib/mongodb"
+import { connectToBucket } from "@/lib/mongodb"
+import { decodeString } from "@/lib/utils"
 
 export const GET = async (
   req: NextRequest,
@@ -11,10 +12,12 @@ export const GET = async (
 ) => {
   try {
     const searchParams = req.nextUrl.searchParams
-    const { bucket } = await connectToDb()
-
     const output_format = searchParams.get("output")
-    const fileObjectId = new ObjectId(params.fileId)
+
+    const { fileId, collectionName } = decodeString(params.fileId)
+    const bucket = await connectToBucket(collectionName)
+
+    const fileObjectId = new ObjectId(fileId)
     const file = (await bucket.find(fileObjectId).toArray()).at(0)
 
     if (!file) return new NextResponse("File Not Found", { status: 404 })

@@ -9,7 +9,7 @@ export const Status = async () => {
   const avatar = user?.imageUrl!
   const email = user?.emailAddresses[0].emailAddress!
 
-  console.log(allInfo)
+  // console.log(allInfo)
   return (
     <div className='fixed left-0 top-20 w-64 h-20 bg-white/50 p-1 text-xs text-zinc-900'>
       {user?.username}

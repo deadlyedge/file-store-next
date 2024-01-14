@@ -4,5 +4,6 @@ export type FileInfoProps = {
   size: number
   delta_time: number
   base_url: string
+  collectionName: string
   selected?: boolean
 }

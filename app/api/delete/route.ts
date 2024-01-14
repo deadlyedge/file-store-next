@@ -3,11 +3,11 @@
 import { ObjectId } from "mongodb"
 import { NextResponse } from "next/server"
 
-import { connectToDb } from "@/lib/mongodb"
+import { connectToBucket } from "@/lib/mongodb"
 
 export const POST = async (req: Request) => {
   try {
-    const { bucket } = await connectToDb()
+    const { bucket } = await connectToBucket()
     const { fileIds } = (await req.json()) as { fileIds: string[] }
 
     fileIds.forEach(async (id) => {

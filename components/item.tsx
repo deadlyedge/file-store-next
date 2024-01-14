@@ -5,7 +5,7 @@ import Image from "next/image"
 import { FileBox, FileCode2, FileText } from "lucide-react"
 
 import { FileInfoProps } from "@/types"
-import { cn, formatBytes, delay } from "@/lib/utils"
+import { cn, formatBytes, delay, encodeStrings } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
 
 type ItemProps = {
@@ -18,7 +18,11 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
   const { toast } = useToast()
 
   const base_url = params.base_url
-  const image_path = `/get/${params.id}`
+  const fileId = encodeStrings({
+    fileId: params.id,
+    collectionName: params.collectionName,
+  })
+  const image_path = `/get/${fileId}`
   const image_url = `${base_url}${image_path}`
   const days = Math.floor(params.delta_time / 86400)
   const file_size = formatBytes(params.size)
@@ -79,7 +83,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
         <code className='bg-zinc-200 px-1 rounded'>{file_size}</code>
       </p>
       <p>
-        Exsist time:
+        Exist time:
         <code className='bg-zinc-200 px-1 rounded'>{days} days</code>
       </p>
       <p>
