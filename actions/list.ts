@@ -4,7 +4,7 @@ import { connectToBucket } from "@/lib/mongodb"
 import { getCollectionName } from "@/lib/utils"
 import { FileInfoProps } from "@/types"
 
-const base_url = process.env.BASE_URL as string
+const baseUrl = process.env.BASE_URL as string
 
 export const listFiles = async () => {
   const { collectionName } = await getCollectionName()
@@ -16,10 +16,10 @@ export const listFiles = async () => {
     filename: file.filename,
     size: file.length,
     // trans file.uploadDate to exist time from now in seconds
-    delta_time: Math.floor(
+    deltaTime: Math.floor(
       (Date.now() - new Date(file.uploadDate).getTime()) / 1000
     ),
-    base_url,
+    baseUrl,
     collectionName,
     selected: false,
   }))

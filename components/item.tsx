@@ -17,18 +17,24 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
   const [isCopied, setIsCopied] = useState(false)
   const { toast } = useToast()
 
-  const base_url = params.base_url
   const fileId = encodeStrings({
     fileId: params.id,
     collectionName: params.collectionName,
   })
-  const image_path = `/get/${fileId}`
-  const image_url = `${base_url}${image_path}`
-  const days = Math.floor(params.delta_time / 86400)
-  const file_size = formatBytes(params.size)
-  const isImage = params.filename.match(/\.(jpg|jpeg|png|gif)$/i)
-  const isPDF = params.filename.match(/\.(pdf)$/i)
-  const isZip = params.filename.match(/\.(zip|7z|gz)$/i)
+  const baseUrl = params.baseUrl
+  const imagePath = `/get/${fileId}`
+
+  const showInfo = {
+    filename: params.filename,
+    imageUrl: `${baseUrl}${imagePath}`,
+    fileSize: formatBytes(params.size),
+    days: Math.floor(params.deltaTime / 86400),
+    downloadUrl: `${imagePath}?output=download`,
+
+    isImage: params.filename.match(/\.(jpg|jpeg|png|gif)$/i),
+    isPDF: params.filename.match(/\.(pdf)$/i),
+    isZip: params.filename.match(/\.(zip|7z|gz)$/i),
+  }
 
   if (!params.selected) params.selected = false
 
@@ -48,46 +54,46 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
         "flex flex-col outline shadow-md text-zinc-700 text-xs m-2 p-2 w-72 hover:outline-blue-300 hover:outline-4 transition-all",
         params.selected ? "bg-zinc-300/50" : "bg-white"
       )}>
-      {isImage && (
+      {showInfo.isImage && (
         <Image
-          src={image_path}
-          alt={params.filename}
+          src={imagePath}
+          alt={showInfo.filename}
           width={320}
           height={320}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 50vw'
           className='w-fit'
         />
       )}
-      {isPDF && <FileText className='w-20 h-20 mx-auto' />}
-      {isZip && <FileBox className='w-20 h-20 mx-auto' />}
-      {!isImage && !isPDF && !isZip && (
+      {showInfo.isPDF && <FileText className='w-20 h-20 mx-auto' />}
+      {showInfo.isZip && <FileBox className='w-20 h-20 mx-auto' />}
+      {!showInfo.isImage && !showInfo.isPDF && !showInfo.isZip && (
         <FileCode2 className='w-20 h-20 mx-auto' />
       )}
-      <p className='overflow-hidden text-ellipsis hover:overflow-visible'>
+      <p className='truncate'>
         Filename:
         <code className='bg-zinc-200 px-1 rounded'>{params.filename}</code>
       </p>
-      <p className='w-64 overflow-hidden text-ellipsis hover:overflow-visible'>
+      <p className='truncate rounded hover:ring-1 hover:ring-orange-500 transition-all'>
         url:
         <code
           className={cn(
             "px-1 rounded",
             isCopied ? "bg-emerald-300 " : "bg-zinc-200"
           )}
-          onClick={() => copyText(image_url)}>
-          {image_url}
+          onClick={() => copyText(showInfo.imageUrl)}>
+          {showInfo.imageUrl}
         </code>
       </p>
       <p>
         Size:
-        <code className='bg-zinc-200 px-1 rounded'>{file_size}</code>
+        <code className='bg-zinc-200 px-1 rounded'>{showInfo.fileSize}</code>
       </p>
       <p>
         Exist time:
-        <code className='bg-zinc-200 px-1 rounded'>{days} days</code>
+        <code className='bg-zinc-200 px-1 rounded'>{showInfo.days} days</code>
       </p>
       <p>
-        <a href={`${image_path}?output=download`} target='_blank'>
+        <a href={showInfo.downloadUrl} target='_blank'>
           <button className='rounded h-5 mt-1 bg-sky-200 hover:bg-orange-300 px-2'>
             Download
           </button>

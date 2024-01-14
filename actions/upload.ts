@@ -28,7 +28,7 @@ export const upload = async (formData: FormData) => {
         id: fileId,
         contentType: file.type,
         metadata: {
-          image_path: encodeStrings({
+          imagePath: encodeStrings({
             fileId: fileId.toString(),
             collectionName,
           }),

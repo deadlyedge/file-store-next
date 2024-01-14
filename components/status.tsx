@@ -1,10 +1,13 @@
-import { auth, currentUser } from "@clerk/nextjs"
+/**
+ * this is a component only made for debug.
+ */
+
+import { currentUser } from "@clerk/nextjs"
 import Image from "next/image"
 
 
 export const Status = async () => {
   const user = await currentUser()
-  const allInfo = JSON.stringify(user)
   const date = new Date(user?.createdAt!)
   const avatar = user?.imageUrl!
   const email = user?.emailAddresses[0].emailAddress!

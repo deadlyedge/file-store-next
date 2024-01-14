@@ -26,4 +26,4 @@ use both API routes and server actions for practise.
 ## TODO
 
  - auto fresh after upload is mess, only work locally with small file, fix it!
- - add auth
+ - administration for database
