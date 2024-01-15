@@ -43,5 +43,6 @@ use both API routes and server actions for practise.
  - ~~responsive page re-design for mobiles~~
  - review filenames and variables
  - port master version to 'mini' version or base-auth
- - admin delete database confirmations 
- - and dashboard delete confirmations
+ - ~~admin delete database confirmations~~
+ - ~~and dashboard delete confirmations~~
+ - shorten the get link by add an api
