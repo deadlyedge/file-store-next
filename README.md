@@ -13,6 +13,7 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
 
  - mongodb
  - nextjs
+ - clerk
 
 sharp should be installed and the version must NOT be 0.33! `npm install sharp@0.32.6`
 
@@ -21,9 +22,19 @@ use both API routes and server actions for practise.
 ## enviroments
 
  - MONGO_URI: {working database}
+ - BASE_URL: 
+ - MONGODB_URI: mongodb://
+ - MONGO_DB_NAME: file_server_next
+ - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 
+ - CLERK_SECRET_KEY: 
+ - NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
+ - NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
+ - NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: /
+ - NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: /
+ - ADMIN_EMAIL: 
 
 
 ## TODO
 
  - auto fresh after upload is mess, only work locally with small file, fix it!
- - administration for database
+ - add timestamp for server log
