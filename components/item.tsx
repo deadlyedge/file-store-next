@@ -89,7 +89,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
         <code className='bg-zinc-200 px-1 rounded'>{showInfo.fileSize}</code>
       </p>
       <p>
-        Exist time:
+        Exist:
         <code className='bg-zinc-200 px-1 rounded'>{showInfo.days} days</code>
       </p>
       <p>
@@ -104,7 +104,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
           name={params.id}
           checked={params.selected}
           onChange={() => handleSelect(params.id)}
-          className='w-5 h-5 mt-1 rounded-lg float-right accent-red-500'></input>
+          className='w-5 h-5 mt-1 rounded-lg float-right accent-red-500 hover:outline-2 hover:outline hover:outline-offset-2 hover:outline-red-600 transition-all'></input>
       </p>
     </div>
   )

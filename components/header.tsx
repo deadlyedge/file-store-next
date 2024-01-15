@@ -24,7 +24,9 @@ export const Header = async () => {
           </div>
           {isAdmin && (
             <div className='ml-4 z-50'>
-              <Button>Admin</Button>
+              <a href='/admin'>
+                <Button>Admin</Button>
+              </a>
             </div>
           )}
           <div className='ml-4 z-50'>
