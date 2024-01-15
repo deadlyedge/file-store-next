@@ -3,7 +3,7 @@
 import { currentUser } from "@clerk/nextjs"
 
 import clientPromise from "@/lib/mongodb"
-import { formatBytes } from "@/lib/utils"
+import { formatBytes, logger } from "@/lib/utils"
 import { DBInfoProps } from "@/types"
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL
@@ -32,11 +32,16 @@ export const getDbInfos = async (): Promise<DBInfoProps[] | null> => {
         .countDocuments(),
     }))
   )
+
+  logger(`${filtered.length} collections got.`)
   return info
 }
 
 export const dropDb = async (dbName: string) => {
   const client = await clientPromise
 
-  client.db(dbName).dropDatabase()
+  client
+    .db(dbName)
+    .dropDatabase()
+    .then(() => logger(`${dbName} [DROPPED!]`))
 }

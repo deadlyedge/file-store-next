@@ -2,7 +2,7 @@
 
 import { ObjectId } from "mongodb"
 import { connectToBucket } from "@/lib/mongodb"
-import { getCollectionName } from "@/lib/utils"
+import { getCollectionName, logger } from "@/lib/utils"
 
 export const deleteFiles = async (ids_to_delete: string[]) => {
   try {
@@ -13,8 +13,8 @@ export const deleteFiles = async (ids_to_delete: string[]) => {
       await bucket.delete(new ObjectId(id))
     })
 
-    console.log(`[DELETE FILES] ${ids_to_delete.length} file(s) deleted.`)
+    logger(`[DELETE FILES] ${ids_to_delete.length} file(s) deleted.`)
   } catch (error) {
-    console.log("delete failed", error)
+    logger("delete failed", error)
   }
 }

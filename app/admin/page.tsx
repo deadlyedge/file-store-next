@@ -2,6 +2,8 @@
 
 import { UserButton } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
+import { useCallback, useEffect, useState } from "react"
+import { Trash2 } from "lucide-react"
 
 import { dropDb, getDbInfos } from "@/actions/admin"
 import { Button } from "@/components/ui/button"
@@ -14,8 +16,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useCallback, useEffect, useState } from "react"
 import { DBInfoProps } from "@/types"
+import { logger } from "@/lib/utils"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export default function AdminPage() {
   const router = useRouter()
@@ -25,7 +36,7 @@ export default function AdminPage() {
     const info = await getDbInfos()
 
     if (!info) {
-      console.log("[You have to log in with Admin Email to use admin route.]")
+      logger("[You have to log in with Admin Email to use admin route.]")
       return router.push("/dashboard")
     }
 
@@ -63,19 +74,38 @@ export default function AdminPage() {
         <TableBody>
           {showInfo.map((db) => (
             <TableRow key={db.dbName}>
-              <TableCell className='break-all'>
-                {db.dbName}
-              </TableCell>
+              <TableCell className='break-all'>{db.dbName}</TableCell>
               <TableCell>
                 {db.filesCount} files, {db.chunksCount} chunks, {db.dbSize}{" "}
                 total.
               </TableCell>
               <TableCell>
-                <Button
-                  variant='destructive'
-                  onClick={() => handleDelete(db.dbName)}>
-                  Delete
-                </Button>
+                <Dialog>
+                  <DialogTrigger>
+                    <Button variant='destructive'>Delete</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Delete Collection</DialogTitle>
+                      <DialogDescription>
+                        Please confirm you want to DELETE entire collection of
+                        <br />
+                        <code className='text-lg bg-white/20 rounded-lg ml-8 py-1 px-2'>
+                          {db.dbName}
+                        </code>
+                        <br />
+                        All Files of that use in this database will be remove.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        variant='destructive'
+                        onClick={() => handleDelete(db.dbName)}>
+                        <Trash2 className="mr-2 w-4 h-4" />Delete
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </TableCell>
             </TableRow>
           ))}

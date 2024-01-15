@@ -42,14 +42,14 @@ export const getCollectionName = async () => {
   const user = await currentUser()
 
   if (!user) {
-    console.log("no user found.")
+    logger("no user found.")
     return redirect("/sign-in")
   }
 
   const email = user.emailAddresses[0].emailAddress
 
   if (!email) {
-    console.log("no email found. something wrong.")
+    logger("no email found. something wrong.")
     return redirect("/sign-in")
   }
 
@@ -85,4 +85,11 @@ export const decodeString = (
   const combinedString = decodeURIComponent(encodedStr)
   const [fileId, collectionName] = combinedString.split(",")
   return { fileId, collectionName }
+}
+
+/**
+ * make a logger
+ */
+export const logger = (...args: any[]) => {
+  console.log(new Date().toLocaleString(), " - ", ...args)
 }

@@ -5,7 +5,7 @@ import { Readable } from "stream"
 import { ObjectId } from "mongodb"
 
 import { connectToBucket } from "@/lib/mongodb"
-import { encodeStrings, getCollectionName } from "@/lib/utils"
+import { encodeStrings, getCollectionName, logger } from "@/lib/utils"
 
 export const POST = async (req: Request) => {
   try {
@@ -49,15 +49,15 @@ export const POST = async (req: Request) => {
     // took me four days form this, have to MARK here!
     while (counter < files.length) {
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      console.log("hold a second...")
+      logger("hold a second...")
     }
 
-    console.log(`[UPLOAD_SUCCESS:] ${files.length} files uploaded.`)
+    logger(`[UPLOAD_SUCCESS:] ${files.length} files uploaded.`)
 
     // return the response after all the entries have been processed.
     return new NextResponse("success", { status: 200 })
   } catch (error) {
-    console.log("[UPLOAD_FAIL:]", error)
+    logger("[UPLOAD_FAIL:]", error)
     return new NextResponse("error", { status: 500 })
   }
 }

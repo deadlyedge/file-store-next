@@ -18,8 +18,8 @@ export const Header = async () => {
       <div className=' w-24 h-24 sm:w-52 sm:h-32 right-0 top-0 fixed bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 background-animate bg-opacity-20'></div>
       <div className='w-full h-36 sm:h-20 right-0 top-0 fixed z-10 bg-zinc-500/40'>
         <div className='mt-[70px] sm:ml-52 lg:ml-[390px] sm:my-auto p-2 w-40 sm:w-80 h-20 flex flex-row justify-start items-center border-zinc-500 text-zinc-200'>
-          <div className='z-50'>
-            <UserButton afterSignOutUrl='/' showName />
+          <div className='z-50 text-center'>
+            <div className="bg-white/10 rounded py-1 px-2 shadow-md"><UserButton afterSignOutUrl='/' showName /></div>
             <div className='hidden sm:block'>
               <TokenDialog />
             </div>

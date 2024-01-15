@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { ObjectId } from "mongodb"
 
 import { connectToBucket } from "@/lib/mongodb"
-import { decodeString } from "@/lib/utils"
+import { decodeString, logger } from "@/lib/utils"
 
 export const GET = async (
   req: NextRequest,
@@ -40,7 +40,7 @@ export const GET = async (
         return new NextResponse(fileStream, { status: 200 })
     }
   } catch (error) {
-    console.log("[GET_FILE_ERROR]", error)
+    logger("[GET_FILE_ERROR]", error)
     return new NextResponse("Internal Error", { status: 500 })
   }
 }

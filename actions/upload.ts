@@ -3,7 +3,7 @@
 import { connectToBucket } from "@/lib/mongodb"
 import { Readable } from "stream"
 
-import { encodeStrings, getCollectionName } from "@/lib/utils"
+import { encodeStrings, getCollectionName, logger } from "@/lib/utils"
 import { ObjectId } from "mongodb"
 
 export const upload = async (formData: FormData) => {
@@ -45,14 +45,14 @@ export const upload = async (formData: FormData) => {
 
     // took me four days for this, had to MARK here!
     while (counter < files.length) {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      console.log("hold a second...")
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      logger("hold 2 seconds...")
     }
 
-    console.log(`[UPLOAD_SUCCESS] ${files.length} file(s) uploaded.`)
+    logger(`[UPLOAD_SUCCESS] ${files.length} file(s) uploaded.`)
 
     // return the response after all the entries have been processed.
   } catch (error) {
-    console.log("[UPLOAD_FAIL] ", error)
+    logger("[UPLOAD_FAIL] ", error)
   }
 }

@@ -68,7 +68,7 @@ export const List = () => {
     <>
       <Add getData={getData} />
 
-      <div className='flex flex-wrap items-center justify-center relative sm:justify-start mt-32 sm:mt-20'>
+      <div className='flex flex-wrap items-center justify-center relative sm:justify-start mt-[138px] sm:mt-20'>
         {fileList.map((file: FileInfoProps, index) => (
           <Item key={index} params={file} handleSelect={handleSelect} />
         ))}
