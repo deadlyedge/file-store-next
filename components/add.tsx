@@ -48,12 +48,12 @@ export const Add = ({ getData }: AddProps) => {
   })
 
   return (
-    <div>
+    <div className=''>
       <div
         {...getRootProps()}
-        className='z-50 w-96 h-20 flex justify-center items-center border-2 border-dashed text-zinc-800 bg-gray-100 rounded bg-opacity-50 cursor-pointer group hover:bg-opacity-90 hover:z-20 duration-200'>
-        <div className='flex-auto text-center text-lg uppercase'>
-          Drop Files Here!
+        className='fixed left-0 top-0 z-50 w-2/3 sm:w-48 lg:w-96 h-20 flex flex-row sm:flex-col lg:flex-row justify-center items-center border-2 border-dashed text-zinc-800 bg-gray-100 rounded bg-opacity-50 cursor-pointer group hover:bg-opacity-90 duration-200 uppercase'>
+        <div className='flex-auto text-center text-lg '>
+          Drop Files Here
         </div>
         <div className='flex-init'>
           <input {...getInputProps()} />
@@ -65,7 +65,7 @@ export const Add = ({ getData }: AddProps) => {
             <path d='M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z'></path>
           </svg>
         </div>
-        <div className='flex-auto ml-5 text-lg'>or click to select</div>
+        <div className='flex-auto ml-5 sm:ml-0 lg:ml-5 text-sm'>click to select</div>
       </div>
       {isPending && (
         <div className='fixed w-full h-full flex justify-center items-center bg-black/50'>

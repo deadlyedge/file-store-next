@@ -39,7 +39,7 @@ export default function AdminPage() {
   const handleDelete = (dbName: string) => {
     dropDb(dbName).then(() => getInfo())
   }
-  
+
   return (
     <div className='flex flex-col justify-center items-center'>
       <div className='flex flex-row justify-center items-center gap-4 my-4'>
@@ -55,7 +55,7 @@ export default function AdminPage() {
         <TableCaption>Current File DBs</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className=''>DB Name</TableHead>
+            <TableHead>DB Name</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className='w-20'>Actions</TableHead>
           </TableRow>
@@ -63,7 +63,9 @@ export default function AdminPage() {
         <TableBody>
           {showInfo.map((db) => (
             <TableRow key={db.dbName}>
-              <TableCell>{db.dbName}</TableCell>
+              <TableCell className='break-all'>
+                {db.dbName}
+              </TableCell>
               <TableCell>
                 {db.filesCount} files, {db.chunksCount} chunks, {db.dbSize}{" "}
                 total.

@@ -13,9 +13,11 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
 
  - mongodb
  - nextjs
+ - typescript
  - clerk
 
-sharp should be installed and the version must NOT be 0.33! `npm install sharp@0.32.6`
+sharp should be installed and the version must NOT be 0.33!
+ `npm install sharp@0.32.6`
 
 use both API routes and server actions for practise.
 
@@ -38,3 +40,8 @@ use both API routes and server actions for practise.
 
  - auto fresh after upload is mess, only work locally with small file, fix it!
  - add timestamp for server log
+ - ~~responsive page re-design for mobiles~~
+ - review filenames and variables
+ - port master version to 'mini' version or base-auth
+ - admin delete database confirmations 
+ - and dashboard delete confirmations
