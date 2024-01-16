@@ -81,7 +81,7 @@ export default function AdminPage() {
               </TableCell>
               <TableCell>
                 <Dialog>
-                  <DialogTrigger>
+                  <DialogTrigger asChild>
                     <Button variant='destructive'>Delete</Button>
                   </DialogTrigger>
                   <DialogContent>

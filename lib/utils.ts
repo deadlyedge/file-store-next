@@ -38,7 +38,7 @@ export const formatBytes = (bytes: number, decimals = 1) => {
  * transform it to collection name for mongo.
  * @returns user email
  */
-export const getCollectionName = async () => {
+export const getDatabaseName = async () => {
   const user = await currentUser()
 
   if (!user) {
@@ -53,38 +53,38 @@ export const getCollectionName = async () => {
     return redirect("/sign-in")
   }
 
-  const collectionName = email.replace(".", "_")
+  const databaseName = email.replace(".", "_")
 
-  return { collectionName }
+  return { databaseName }
 }
 
 /**
- * encode fileId and collectionName to a uri safe string.
- * @param {fileId: string, collectionName: string}
+ * encode fileId and databaseName to a uri safe string.
+ * @param {fileId: string, databaseName: string}
  * @returns
  */
 export const encodeStrings = ({
   fileId,
-  collectionName,
+  databaseName,
 }: {
   fileId: string
-  collectionName: string
+  databaseName: string
 }): string => {
-  const combinedString = `${fileId},${collectionName}`
+  const combinedString = `${fileId},${databaseName}`
   return encodeURIComponent(combinedString)
 }
 
 /**
- * decode uri safe string to fileId and collectionName.
+ * decode uri safe string to fileId and databaseName.
  * @param encodedStr
- * @returns {fileId: string, collectionName: string}
+ * @returns {fileId: string, databaseName: string}
  */
 export const decodeString = (
   encodedStr: string
-): { fileId: string; collectionName: string } => {
+): { fileId: string; databaseName: string } => {
   const combinedString = decodeURIComponent(encodedStr)
-  const [fileId, collectionName] = combinedString.split(",")
-  return { fileId, collectionName }
+  const [fileId, databaseName] = combinedString.split(",")
+  return { fileId, databaseName }
 }
 
 /**
@@ -93,3 +93,4 @@ export const decodeString = (
 export const logger = (...args: any[]) => {
   console.log(new Date().toLocaleString(), " - ", ...args)
 }
+

@@ -4,26 +4,36 @@ import { NextResponse } from "next/server"
 import { Readable } from "stream"
 import { ObjectId } from "mongodb"
 
-import { connectToBucket } from "@/lib/mongodb"
-import { encodeStrings, getCollectionName, logger } from "@/lib/utils"
+import {
+  connectToBucket,
+  connectToShortPathCollection,
+  getRandomString,
+} from "@/lib/mongodb"
+import { encodeStrings, getDatabaseName, logger } from "@/lib/utils"
 
 export const POST = async (req: Request) => {
   try {
-    const data = await req.formData()
-    const { collectionName } = await getCollectionName()
-    const bucket = await connectToBucket(collectionName)
+    const formData = await req.formData()
+    
+    const { databaseName } = await getDatabaseName()
+    const bucket = await connectToBucket(databaseName)
+    const shortPathCollection = await connectToShortPathCollection()
 
     const files: File[] = []
     let counter = 0
-    data.forEach((value) => files.push(value as File))
+    formData.forEach((value) => files.push(value as File))
 
     // map through all the entries
     files.forEach(async (file) => {
       const filename = file.name
       const fileId = new ObjectId()
-
       const buffer = Buffer.from(await file.arrayBuffer())
       const stream = Readable.from(buffer)
+      const randomString = await getRandomString()
+      const imagePath = encodeStrings({
+        fileId: fileId.toString(),
+        databaseName,
+      })
 
       const uploadStream = bucket.openUploadStream(filename, {
         // make sure to add content type so that it will be easier to set later.
@@ -31,11 +41,15 @@ export const POST = async (req: Request) => {
         id: fileId,
         contentType: file.type,
         metadata: {
-          imagePath: encodeStrings({
-            fileId: fileId.toString(),
-            collectionName,
-          }),
+          shortPath: randomString,
         }, //add your metadata here if any
+      })
+
+      await shortPathCollection.insertOne({
+        _id: fileId,
+        user_id: databaseName,
+        shortPath: randomString,
+        longPath: imagePath,
       })
 
       stream.on("close", () => {

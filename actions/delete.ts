@@ -1,16 +1,19 @@
 "use server"
 
 import { ObjectId } from "mongodb"
-import { connectToBucket } from "@/lib/mongodb"
-import { getCollectionName, logger } from "@/lib/utils"
+import { connectToBucket, connectToShortPathCollection } from "@/lib/mongodb"
+import { getDatabaseName, logger } from "@/lib/utils"
 
 export const deleteFiles = async (ids_to_delete: string[]) => {
   try {
-    const { collectionName } = await getCollectionName()
-    const bucket = await connectToBucket(collectionName)
+    const { databaseName } = await getDatabaseName()
+    const bucket = await connectToBucket(databaseName)
+    const shortPathCollection = await connectToShortPathCollection()
 
     ids_to_delete.forEach(async (id) => {
-      await bucket.delete(new ObjectId(id))
+      const objectId = new ObjectId(id)
+      await shortPathCollection.deleteOne({ _id: objectId })
+      await bucket.delete(objectId)
     })
 
     logger(`[DELETE FILES] ${ids_to_delete.length} file(s) deleted.`)

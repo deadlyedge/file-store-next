@@ -4,12 +4,12 @@ import { ObjectId } from "mongodb"
 import { NextResponse } from "next/server"
 
 import { connectToBucket } from "@/lib/mongodb"
-import { getCollectionName, logger } from "@/lib/utils"
+import { getDatabaseName, logger } from "@/lib/utils"
 
 export const POST = async (req: Request) => {
   try {
-    const { collectionName } = await getCollectionName()
-    const bucket = await connectToBucket(collectionName)
+    const { databaseName } = await getDatabaseName()
+    const bucket = await connectToBucket(databaseName)
     const { fileIds } = (await req.json()) as { fileIds: string[] }
 
     fileIds.forEach(async (id) => {

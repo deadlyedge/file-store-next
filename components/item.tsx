@@ -29,17 +29,18 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
 
   const fileId = encodeStrings({
     fileId: params.id,
-    collectionName: params.collectionName,
+    databaseName: params.databaseName,
   })
   const baseUrl = params.baseUrl
-  const imagePath = `/get/${fileId}`
+  // const imagePath = `/get/${fileId}`
+  const imagePath = `/s/${params.shortPath}`
 
   const showInfo = {
     filename: params.filename,
     imageUrl: `${baseUrl}${imagePath}`,
     fileSize: formatBytes(params.size),
     days: Math.floor(params.deltaTime / 86400),
-    downloadUrl: `${imagePath}?output=download`,
+    downloadUrl: `${imagePath}/download`,
 
     isImage: params.filename.match(/\.(jpg|jpeg|png|gif)$/i),
     isPDF: params.filename.match(/\.(pdf)$/i),
