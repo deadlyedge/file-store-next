@@ -4,7 +4,7 @@ export type FileInfoProps = {
   size: number
   deltaTime: number
   baseUrl: string
-  databaseName: string
+  databaseName?: string
   shortPath: string
   selected?: boolean
 }

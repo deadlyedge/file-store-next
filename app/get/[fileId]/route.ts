@@ -15,7 +15,7 @@ export const GET = async (
     const output_format = searchParams.get("output")
 
     const { fileId, databaseName } = decodeString(params.fileId)
-    const bucket = await connectToBucket(databaseName)
+    const { bucket } = await connectToBucket(databaseName)
 
     const fileObjectId = new ObjectId(fileId)
     const file = (await bucket.find(fileObjectId).toArray()).at(0)

@@ -38,11 +38,11 @@ use both API routes and server actions for practise.
 
 ## TODO
 
- - ~~auto fresh after upload is mess, only work locally with small file, fix it!~~
+ - auto fresh after upload is mess, only work locally with small file, fix it!
  - ~~add timestamp for server log~~
  - ~~responsive page re-design for mobiles~~
  - review filenames and variables
  - port master version to 'mini' version or base-auth
  - ~~admin delete database confirmations~~
  - ~~and dashboard delete confirmations~~
- - shorten the get link by add an api
+ - ~~shorten the get link by add an api~~

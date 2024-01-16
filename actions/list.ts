@@ -1,14 +1,12 @@
 "use server"
 
 import { connectToBucket } from "@/lib/mongodb"
-import { getDatabaseName } from "@/lib/utils"
 import { FileInfoProps } from "@/types"
 
 const baseUrl = process.env.BASE_URL as string
 
 export const listFiles = async () => {
-  const { databaseName } = await getDatabaseName()
-  const bucket = await connectToBucket(databaseName)
+  const { bucket } = await connectToBucket()
 
   const files = await bucket.find().toArray()
   const output: FileInfoProps[] = files.map((file) => ({
@@ -21,7 +19,6 @@ export const listFiles = async () => {
     ),
     baseUrl,
     shortPath: file.metadata?.shortPath,
-    databaseName,
     selected: false,
   }))
 

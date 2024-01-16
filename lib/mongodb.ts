@@ -1,5 +1,7 @@
 import { GridFSBucket, MongoClient } from "mongodb"
 import { logger } from "./utils"
+import { currentUser } from "@clerk/nextjs"
+import { redirect } from "next/navigation"
 
 // add default value to prevent docker build error with mongodb
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://192.168.50.17/"
@@ -34,33 +36,67 @@ if (process.env.NODE_ENV === "development") {
 // separate module, the client can be shared across functions.
 export default clientPromise
 
-export const connectToBucket = async (
-  databaseName: string = DEFAULT_DB_NAME
-) => {
+/**
+ * on upload, list, delete route, use current user's database name,
+ * on get route, the url link or the short path must provide the
+ * database name. so we can then connect the database.
+ * @param dbName optional, if not present, use current user's database
+ * @returns
+ */
+export const connectToBucket = async (dbName?: string) => {
   const client = await clientPromise
+  const databaseName = dbName || (await getDatabaseName())
 
-  const changeDotInDatabaseName = databaseName.replace(".", "_")
+  const db = client.db(databaseName)
+  const bucket = new GridFSBucket(db)
 
-  const bucket = new GridFSBucket(client.db(changeDotInDatabaseName))
-
-  return bucket
+  return { db, bucket, databaseName }
 }
 
+/**
+ * check if collection exist, if not, create it.
+ * check if index exist, if not, create it.
+ * @returns collection for short path.
+ */
 export const connectToShortPathCollection = async () => {
-  const client = await clientPromise
-  const db = client.db("file_store_common")
-  const collection = db.collection("short_path")
+  const { db } = await connectToBucket()
+  const shortPathCollection = db.collection("short_path")
 
   const checkCollection = await db.listCollections().toArray()
 
-  if (checkCollection.length < 1) await db.createCollection("short_path")
+  if (checkCollection.length < 3) await db.createCollection("short_path")
 
-  const checkIndex = await collection.listIndexes().toArray()
+  const checkIndex = await shortPathCollection.listIndexes().toArray()
   if (checkIndex.length < 2) {
-    await collection.createIndex({ shortPath: 1 }, { unique: true })
+    await shortPathCollection.createIndex({ shortPath: 1 }, { unique: true })
   }
 
-  return collection
+  return { shortPathCollection }
+}
+
+/**
+ * get user email from current user and then
+ * transform it to collection name for mongo.
+ * @returns user email
+ */
+export const getDatabaseName = async () => {
+  const user = await currentUser()
+
+  if (!user) {
+    logger("no user found.")
+    return redirect("/sign-in")
+  }
+
+  const email = user.emailAddresses[0].emailAddress
+
+  if (!email) {
+    logger("no email found. something wrong.")
+    return redirect("/sign-in")
+  }
+
+  const databaseName = "fs_" + email.replace(".", "_")
+
+  return databaseName
 }
 
 /**
@@ -77,10 +113,9 @@ export const getRandomString = async (len = DEFAULT_SHORT_PATH_LENGTH) => {
     str += pool.charAt(Math.floor(Math.random() * pool.length))
   }
 
-  const client = await clientPromise
+  const { db } = await connectToBucket()
 
-  const checkExist = await client
-    .db("file_store_common")
+  const checkExist = await db
     .collection("short_path")
     .findOne({ shortPath: str })
 

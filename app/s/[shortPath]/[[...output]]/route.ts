@@ -13,7 +13,7 @@ type GETProps = {
 }
 
 export const GET = async (req: Request, { params }: GETProps) => {
-  const shortPathCollection = await connectToShortPathCollection()
+  const { shortPathCollection } = await connectToShortPathCollection()
 
   const shortPathLongPathTable = await shortPathCollection.findOne({
     shortPath: params.shortPath,
@@ -28,7 +28,7 @@ export const GET = async (req: Request, { params }: GETProps) => {
     }
 
     const { fileId, databaseName } = decodeString(longPath)
-    const bucket = await connectToBucket(databaseName)
+    const { bucket } = await connectToBucket(databaseName)
 
     const fileObjectId = new ObjectId(fileId)
     const file = (await bucket.find(fileObjectId).toArray()).at(0)

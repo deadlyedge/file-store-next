@@ -7,16 +7,17 @@ import {
   FileBox,
   FileCode2,
   FileText,
-  Trash,
   Trash2,
+  FileAudio,
+  FileVideo,
 } from "lucide-react"
 
 import { FileInfoProps } from "@/types"
 import { cn, formatBytes, delay, encodeStrings } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
-import { Toggle } from "./ui/toggle"
-import { Button } from "./ui/button"
-import { Card, CardContent, CardFooter } from "./ui/card"
+import { Toggle } from "@/components/ui/toggle"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
 type ItemProps = {
   params: FileInfoProps
@@ -27,10 +28,10 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
   const [isCopied, setIsCopied] = useState(false)
   const { toast } = useToast()
 
-  const fileId = encodeStrings({
-    fileId: params.id,
-    databaseName: params.databaseName,
-  })
+  // const fileId = encodeStrings({
+  //   fileId: params.id,
+  //   databaseName: params.databaseName,
+  // })
   const baseUrl = params.baseUrl
   // const imagePath = `/get/${fileId}`
   const imagePath = `/s/${params.shortPath}`
@@ -45,6 +46,8 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
     isImage: params.filename.match(/\.(jpg|jpeg|png|gif)$/i),
     isPDF: params.filename.match(/\.(pdf)$/i),
     isZip: params.filename.match(/\.(zip|7z|gz)$/i),
+    isVideo: params.filename.match(/\.(mp4|mkv|avi)$/i),
+    isAudio: params.filename.match(/\.(mp3|wav|flac)$/i),
   }
 
   if (!params.selected) params.selected = false
@@ -65,7 +68,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
         "outline-none shadow-md text-zinc-700 text-lg sm:text-xs m-2 p-2 w-full sm:w-72 hover:outline-blue-300 hover:outline-4 transition-all",
         params.selected ? "bg-zinc-300/50" : "bg-white"
       )}>
-      <CardContent className="w-full aspect-square relative mb-1">
+      <CardContent className='w-full aspect-square relative mb-1 flex justify-center items-center'>
         {showInfo.isImage && (
           <Image
             src={imagePath}
@@ -75,11 +78,15 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
             className='object-contain'
           />
         )}
-        {showInfo.isPDF && <FileText className='w-20 h-20 mx-auto' />}
-        {showInfo.isZip && <FileBox className='w-20 h-20 mx-auto' />}
-        {!showInfo.isImage && !showInfo.isPDF && !showInfo.isZip && (
-          <FileCode2 className='w-20 h-20 mx-auto' />
-        )}
+        {showInfo.isPDF && <FileText className='w-20 h-20' />}
+        {showInfo.isZip && <FileBox className='w-20 h-20' />}
+        {showInfo.isVideo && <FileVideo className='w-20 h-20' />}
+        {showInfo.isAudio && <FileAudio className='w-20 h-20' />}
+        {!showInfo.isImage &&
+          !showInfo.isPDF &&
+          !showInfo.isZip &&
+          !showInfo.isVideo &&
+          !showInfo.isAudio && <FileCode2 className='w-20 h-20' />}
       </CardContent>
       <p className='truncate'>
         filename:
@@ -104,7 +111,7 @@ export const Item = ({ params, handleSelect }: ItemProps) => {
         exist:
         <code className='bg-zinc-200 px-1 rounded'>{showInfo.days} days</code>
       </p>
-      <p className="mt-1">
+      <p className='mt-1'>
         <a href={showInfo.downloadUrl} target='_blank'>
           <Button className='bg-orange-100 hover:bg-green-300 '>
             <Download className='w-4 h-4 mr-2' />

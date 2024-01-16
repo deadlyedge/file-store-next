@@ -1,6 +1,4 @@
-import { currentUser } from "@clerk/nextjs"
 import { type ClassValue, clsx } from "clsx"
-import { redirect } from "next/navigation"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -31,31 +29,6 @@ export const formatBytes = (bytes: number, decimals = 1) => {
   const i = Math.floor(Math.log(bytes) / Math.log(k))
 
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
-}
-
-/**
- * get user email from current user and then
- * transform it to collection name for mongo.
- * @returns user email
- */
-export const getDatabaseName = async () => {
-  const user = await currentUser()
-
-  if (!user) {
-    logger("no user found.")
-    return redirect("/sign-in")
-  }
-
-  const email = user.emailAddresses[0].emailAddress
-
-  if (!email) {
-    logger("no email found. something wrong.")
-    return redirect("/sign-in")
-  }
-
-  const databaseName = email.replace(".", "_")
-
-  return { databaseName }
 }
 
 /**
@@ -93,4 +66,3 @@ export const decodeString = (
 export const logger = (...args: any[]) => {
   console.log(new Date().toLocaleString(), " - ", ...args)
 }
-

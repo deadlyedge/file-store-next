@@ -7,14 +7,13 @@ import {
 } from "@/lib/mongodb"
 import { Readable } from "stream"
 
-import { encodeStrings, getDatabaseName, logger } from "@/lib/utils"
+import { encodeStrings, logger } from "@/lib/utils"
 import { ObjectId } from "mongodb"
 
 export const upload = async (formData: FormData) => {
   try {
-    const { databaseName } = await getDatabaseName()
-    const bucket = await connectToBucket(databaseName)
-    const shortPathCollection = await connectToShortPathCollection()
+    const { bucket, databaseName } = await connectToBucket()
+    const { shortPathCollection } = await connectToShortPathCollection()
 
     const files: File[] = []
     let counter = 0

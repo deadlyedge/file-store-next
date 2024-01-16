@@ -9,15 +9,14 @@ import {
   connectToShortPathCollection,
   getRandomString,
 } from "@/lib/mongodb"
-import { encodeStrings, getDatabaseName, logger } from "@/lib/utils"
+import { encodeStrings, logger } from "@/lib/utils"
 
 export const POST = async (req: Request) => {
   try {
     const formData = await req.formData()
-    
-    const { databaseName } = await getDatabaseName()
-    const bucket = await connectToBucket(databaseName)
-    const shortPathCollection = await connectToShortPathCollection()
+
+    const { bucket, databaseName } = await connectToBucket()
+    const { shortPathCollection } = await connectToShortPathCollection()
 
     const files: File[] = []
     let counter = 0

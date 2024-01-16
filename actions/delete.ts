@@ -2,13 +2,12 @@
 
 import { ObjectId } from "mongodb"
 import { connectToBucket, connectToShortPathCollection } from "@/lib/mongodb"
-import { getDatabaseName, logger } from "@/lib/utils"
+import { logger } from "@/lib/utils"
 
 export const deleteFiles = async (ids_to_delete: string[]) => {
   try {
-    const { databaseName } = await getDatabaseName()
-    const bucket = await connectToBucket(databaseName)
-    const shortPathCollection = await connectToShortPathCollection()
+    const { bucket } = await connectToBucket()
+    const { shortPathCollection } = await connectToShortPathCollection()
 
     ids_to_delete.forEach(async (id) => {
       const objectId = new ObjectId(id)

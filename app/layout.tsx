@@ -4,7 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs"
 import { zhCN } from "@clerk/localizations"
 import { dark } from "@clerk/themes"
 
-import "./globals.css"
+import "@/app/globals.css"
 
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
