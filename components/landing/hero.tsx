@@ -24,7 +24,7 @@ export function LandingHero() {
         <div className='text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>
           <TypewriterComponent
             options={{
-              strings: ["File Store", "Manage", "Share", "Group"],
+              strings: ["fileStore", "manage", "fileShare","APIs"],
               autoStart: true,
               loop: true,
             }}

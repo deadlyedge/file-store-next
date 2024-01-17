@@ -23,18 +23,40 @@ use both API routes and server actions for practise.
 
 ## enviroments
 
- - MONGO_URI: {working database}
- - BASE_URL: 
- - MONGODB_URI: mongodb://
- - MONGO_DB_NAME: file_server_next
- - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 
- - CLERK_SECRET_KEY: 
- - NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
- - NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
- - NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: /
- - NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: /
- - ADMIN_EMAIL: 
+here's my building compose file.
 
+```yaml
+version: "3.8"
+
+services:
+
+  file_server:
+    image: "xdream76/file-server-next"
+    container_name: "file-server-next"
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      TZ: Asia/Hong_Kong
+
+      # need this for returning correct file link.
+      BASE_URL: https://file.zick.me
+      MONGODB_URI: mongodb://your.mongodb.url
+
+      # clerk part, makes life easier. just register there.
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+      CLERK_SECRET_KEY:
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: /
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: /
+
+      # need this for admin panel and this should match your login account
+      ADMIN_EMAIL: xdream@gmail.com
+
+```
 
 ## TODO
 
@@ -46,4 +68,5 @@ use both API routes and server actions for practise.
  - auto fresh after upload is mess, only work locally with small file, fix it!
  - review filenames and variables
  - port master version to 'mini' version or base-auth
- - make a decent home page
+ - ~~make a decent home page~~
+ - /get route is deprecating

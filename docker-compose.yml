@@ -12,7 +12,18 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       TZ: Asia/Hong_Kong
+
+      # need this for returning correct file link.
       BASE_URL: https://file.zick.me
-      MONGODB_URI: 
-      MONGO_DB_NAME: file_server_next
-      
+      MONGODB_URI: mongodb://your.mongodb.url
+
+      # clerk part, makes life easier. just register there.
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+      CLERK_SECRET_KEY:
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: /
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: /
+
+      # need this for admin panel and this should match your login account
+      ADMIN_EMAIL: xdream@gmail.com
