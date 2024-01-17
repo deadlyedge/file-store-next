@@ -6,7 +6,6 @@ import {
   DrawerTitle,
   DrawerDescription,
 } from "@/components/ui/drawer"
-import { Button } from "./ui/button"
 
 export const About = () => {
   return (
