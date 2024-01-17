@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 
 import { connectToBucket, connectToShortPathCollection } from "@/lib/mongodb"
 import { NextResponse } from "next/server"
-import { decodeString, logger } from "@/lib/utils"
+import { logger } from "@/lib/utils"
 import { ObjectId } from "mongodb"
 
 type GETProps = {
@@ -13,41 +13,40 @@ type GETProps = {
 }
 
 export const GET = async (req: Request, { params }: GETProps) => {
-  const { shortPathCollection } = await connectToShortPathCollection()
-
-  const shortPathLongPathTable = await shortPathCollection.findOne({
-    shortPath: params.shortPath,
-  })
-  if (!shortPathLongPathTable) {
-    return redirect("/vercel.svg")
-  }
-
   try {
-    const { longPath } = shortPathLongPathTable as unknown as {
-      longPath: string
+    const { shortPathCollection } = await connectToShortPathCollection()
+
+    const shortPathTable = await shortPathCollection.findOne({
+      shortPath: params.shortPath,
+    })
+    if (!shortPathTable) {
+      return redirect("/vercel.svg")
     }
 
-    const { fileId, databaseName } = decodeString(longPath)
-    const { bucket } = await connectToBucket(databaseName)
+    const { _id: fileId, user_id: userId } = shortPathTable as unknown as {
+      _id: ObjectId
+      user_id: string
+    }
 
-    const fileObjectId = new ObjectId(fileId)
-    const file = (await bucket.find(fileObjectId).toArray()).at(0)
-    const output = params.output ? params.output.shift() : ""
+    const { bucket } = await connectToBucket(userId)
+
+    const file = (await bucket.find(fileId).toArray()).at(0)
+    const output_format = params.output ? params.output.shift() : ""
 
     if (!file) return new NextResponse("File Not Found", { status: 404 })
 
     const fileStream = bucket.openDownloadStream(
-      fileObjectId
+      fileId
     ) as unknown as ReadableStream
 
-    switch (output) {
+    switch (output_format) {
       case "json":
         return NextResponse.json(file)
       case "download":
         return new NextResponse(fileStream, {
           status: 200,
           headers: {
-            "Content-Disposition": `attachment; filename=${file?.filename}`,
+            "Content-Disposition": `attachment; filename=${file.filename}`,
           },
         })
       default:

@@ -59,12 +59,13 @@ export const connectToBucket = async (dbName?: string) => {
  * @returns collection for short path.
  */
 export const connectToShortPathCollection = async () => {
-  const { db } = await connectToBucket()
+  const client = await clientPromise
+  const db = client.db("file_store_common")
   const shortPathCollection = db.collection("short_path")
 
   const checkCollection = await db.listCollections().toArray()
 
-  if (checkCollection.length < 3) await db.createCollection("short_path")
+  if (checkCollection.length < 1) await db.createCollection("short_path")
 
   const checkIndex = await shortPathCollection.listIndexes().toArray()
   if (checkIndex.length < 2) {
@@ -77,7 +78,7 @@ export const connectToShortPathCollection = async () => {
 /**
  * get user email from current user and then
  * transform it to collection name for mongo.
- * @returns user email
+ * @returns database name.
  */
 export const getDatabaseName = async () => {
   const user = await currentUser()
@@ -94,7 +95,7 @@ export const getDatabaseName = async () => {
     return redirect("/sign-in")
   }
 
-  const databaseName = "fs_" + email.replace(".", "_")
+  const databaseName = "fs_" + email.replaceAll(".", "_")
 
   return databaseName
 }
@@ -119,8 +120,8 @@ export const getRandomString = async (len = DEFAULT_SHORT_PATH_LENGTH) => {
     .collection("short_path")
     .findOne({ shortPath: str })
 
-  if (!checkExist) return str
+  if (!checkExist) return { randomString: str }
 
   logger("find duplicate id, use alternative plan.")
-  return (str += "_")
+  return { randomString: (str += "_") }
 }

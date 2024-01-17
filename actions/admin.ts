@@ -2,7 +2,7 @@
 
 import { currentUser } from "@clerk/nextjs"
 
-import clientPromise from "@/lib/mongodb"
+import clientPromise, { connectToShortPathCollection } from "@/lib/mongodb"
 import { formatBytes, logger } from "@/lib/utils"
 import { DBInfoProps } from "@/types"
 
@@ -50,6 +50,9 @@ export const getDbInfos = async (): Promise<DBInfoProps[] | null> => {
  */
 export const dropDb = async (dbName: string) => {
   const client = await clientPromise
+  const { shortPathCollection } = await connectToShortPathCollection()
+
+  await shortPathCollection.deleteMany({ user_id: dbName })
 
   if (dbName.startsWith("fs_") && dbName.includes("@"))
     return await client

@@ -1,14 +1,14 @@
 "use server"
 
+import { ObjectId } from "mongodb"
+import { Readable } from "stream"
+
 import {
   connectToBucket,
   connectToShortPathCollection,
   getRandomString,
 } from "@/lib/mongodb"
-import { Readable } from "stream"
-
-import { encodeStrings, logger } from "@/lib/utils"
-import { ObjectId } from "mongodb"
+import { logger } from "@/lib/utils"
 
 export const upload = async (formData: FormData) => {
   try {
@@ -25,11 +25,7 @@ export const upload = async (formData: FormData) => {
       const fileId = new ObjectId()
       const buffer = Buffer.from(await file.arrayBuffer())
       const stream = Readable.from(buffer)
-      const randomString = await getRandomString()
-      const imagePath = encodeStrings({
-        fileId: fileId.toString(),
-        databaseName,
-      })
+      const { randomString } = await getRandomString()
 
       const uploadStream = bucket.openUploadStream(filename, {
         // make sure to add content type so that it will be easier to set later.
@@ -45,7 +41,6 @@ export const upload = async (formData: FormData) => {
         _id: fileId,
         user_id: databaseName,
         shortPath: randomString,
-        longPath: imagePath,
       })
 
       stream.on("close", () => {
@@ -58,8 +53,8 @@ export const upload = async (formData: FormData) => {
 
     // took me four days for this, had to MARK here!
     while (counter < files.length) {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      logger("hold 2 seconds...")
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      logger("hold 1 seconds...")
     }
 
     logger(`[UPLOAD_SUCCESS] ${files.length} file(s) uploaded.`)
