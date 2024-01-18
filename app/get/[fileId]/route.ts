@@ -21,6 +21,7 @@ export const GET = async (
     const file = (await bucket.find(fileObjectId).toArray()).at(0)
 
     if (!file) return new NextResponse("File Not Found", { status: 404 })
+    const fileNameUrlSafe = encodeURI(file.filename)
 
     const fileStream = bucket.openDownloadStream(
       fileObjectId
@@ -33,7 +34,7 @@ export const GET = async (
         return new NextResponse(fileStream, {
           status: 200,
           headers: {
-            "Content-Disposition": `attachment; filename=${file?.filename}`,
+            "Content-Disposition": `attachment; filename=${fileNameUrlSafe}`,
           },
         })
       default:

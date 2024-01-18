@@ -7,6 +7,7 @@ import { ObjectId } from "mongodb"
 import {
   connectToBucket,
   connectToShortPathCollection,
+  connectToTokenTable,
   getRandomString,
 } from "@/lib/mongodb"
 import { encodeStrings, logger } from "@/lib/utils"
@@ -14,8 +15,15 @@ import { encodeStrings, logger } from "@/lib/utils"
 export const POST = async (req: Request) => {
   try {
     const formData = await req.formData()
+    const token = req.headers.get("token")
+    if (!token) return new NextResponse("Unauthorized", { status: 401 })
 
-    const { bucket, databaseName } = await connectToBucket()
+    const { tokenTable } = await connectToTokenTable()
+    const databaseName = await tokenTable
+      .findOne({ token })
+      .then((res) => res?.user_id)
+
+    const { bucket } = await connectToBucket(databaseName)
     const { shortPathCollection } = await connectToShortPathCollection()
 
     const files: File[] = []
@@ -29,10 +37,6 @@ export const POST = async (req: Request) => {
       const buffer = Buffer.from(await file.arrayBuffer())
       const stream = Readable.from(buffer)
       const { randomString } = await getRandomString()
-      // const imagePath = encodeStrings({
-      //   fileId: fileId.toString(),
-      //   databaseName,
-      // })
 
       const uploadStream = bucket.openUploadStream(filename, {
         // make sure to add content type so that it will be easier to set later.
@@ -48,7 +52,6 @@ export const POST = async (req: Request) => {
         _id: fileId,
         user_id: databaseName,
         shortPath: randomString,
-        // longPath: imagePath,
       })
 
       stream.on("close", () => {

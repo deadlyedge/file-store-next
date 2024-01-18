@@ -63,16 +63,45 @@ export const connectToShortPathCollection = async () => {
   const db = client.db("file_store_common")
   const shortPathCollection = db.collection("short_path")
 
-  const checkCollection = await db.listCollections().toArray()
+  const checkCollection = (await db.listCollections().toArray()).map(
+    (res) => res.name
+  )
 
-  if (checkCollection.length < 1) await db.createCollection("short_path")
+  if (!checkCollection.includes("short_path"))
+    await db.createCollection("short_path")
 
   const checkIndex = await shortPathCollection.listIndexes().toArray()
+
   if (checkIndex.length < 2) {
     await shortPathCollection.createIndex({ shortPath: 1 }, { unique: true })
   }
 
   return { shortPathCollection }
+}
+/**
+ * check if collection exist, if not, create it.
+ * check if index exist, if not, create it.
+ * @returns collection for short path.
+ */
+export const connectToTokenTable = async () => {
+  const client = await clientPromise
+  const db = client.db("file_store_common")
+  const tokenTable = db.collection("token_table")
+
+  const checkCollection = (await db.listCollections().toArray()).map(
+    (res) => res.name
+  )
+  if (!checkCollection.includes("token_table"))
+    await db.createCollection("token_table")
+
+  const checkIndex = await tokenTable.listIndexes().toArray()
+
+  if (checkIndex.length < 2) {
+    await tokenTable.createIndex({ user_id: 1 }, { unique: true })
+    await tokenTable.createIndex({ token: 1 }, { unique: true })
+  }
+
+  return { tokenTable }
 }
 
 /**

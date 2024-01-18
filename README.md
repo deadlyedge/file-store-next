@@ -58,6 +58,55 @@ services:
 
 ```
 
+## API Usage
+
+you should get the token from `/dashboard` first.  In fact, if you don't want to 
+develop things base on this little tiny project, the api routes is not necessary
+at all. But, as I always said, this is a learning project, so I must do as much as 
+I can.
+
+### /api/list
+
+a GET method should be like:
+
+```URL
+http://localhost:3000/api/list?token=3dd4077f-634f-45a9-baea-05e268ee9348
+```
+
+### /api/delete
+
+a POST method, a JSON like:
+
+```JSON
+{
+	"fileIds": [
+		"65a8a899d7a7275cde8639fe",
+		"65a73dc3d5daae4a1ff1d88b"
+	],
+	"token": "3dd4077f-634f-45a9-baea-05e268ee9348"
+}
+```
+
+ should be post to:
+
+```URL
+http://localhost:3000/api/delete
+```
+
+### /api/upload
+
+a POST method, a FormData stucture like:
+
+```typescript
+    const formData = new FormData()
+    const files: File[] = Array.from(acceptedFiles ?? [])
+    for (const file of files) {
+      formData.append(file.name, file)
+    }
+```
+which means an Array of File with {filename: file} pair should be posted to the api
+with token in headers.
+
 ## TODO
 
  - ~~add timestamp for server log~~
@@ -69,4 +118,6 @@ services:
  - review filenames and variables
  - port master version to 'mini' version or base-auth
  - ~~make a decent home page~~
- - /get route is deprecating
+ - /get route is deprecating (maybe not)
+ - add token verification for apis
+ - filename unicode support

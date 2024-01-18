@@ -5,8 +5,8 @@ import { FileInfoProps } from "@/types"
 
 const baseUrl = process.env.BASE_URL as string
 
-export const listFiles = async () => {
-  const { bucket } = await connectToBucket()
+export const listFiles = async (userId?: string) => {
+  const { bucket } = await connectToBucket(userId)
 
   const files = await bucket.find().toArray()
   const output: FileInfoProps[] = files.map((file) => ({

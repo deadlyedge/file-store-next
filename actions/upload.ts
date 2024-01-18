@@ -2,6 +2,7 @@
 
 import { ObjectId } from "mongodb"
 import { Readable } from "stream"
+import utf8 from "utf8"
 
 import {
   connectToBucket,
@@ -9,6 +10,7 @@ import {
   getRandomString,
 } from "@/lib/mongodb"
 import { logger } from "@/lib/utils"
+import { NextResponse } from "next/server"
 
 export const upload = async (formData: FormData) => {
   try {
@@ -21,7 +23,7 @@ export const upload = async (formData: FormData) => {
 
     // map through all the entries
     files.forEach(async (file) => {
-      const filename = file.name
+      const filename = utf8.decode(file.name)
       const fileId = new ObjectId()
       const buffer = Buffer.from(await file.arrayBuffer())
       const stream = Readable.from(buffer)
@@ -37,13 +39,12 @@ export const upload = async (formData: FormData) => {
         }, //add your metadata here if any
       })
 
-      await shortPathCollection.insertOne({
-        _id: fileId,
-        user_id: databaseName,
-        shortPath: randomString,
-      })
-
-      stream.on("close", () => {
+      stream.on("end", () => {
+        shortPathCollection.insertOne({
+          _id: fileId,
+          user_id: databaseName,
+          shortPath: randomString,
+        })
         counter += 1
       })
 
@@ -57,10 +58,15 @@ export const upload = async (formData: FormData) => {
       logger("hold 1 seconds...")
     }
 
-    logger(`[UPLOAD_SUCCESS] ${files.length} file(s) uploaded.`)
+    logger(`[UPLOAD_SUCCESS] ${counter} file(s) uploaded.`)
 
     // return the response after all the entries have been processed.
+    return {
+      success: true,
+      message: `${counter} file(s) uploaded.`,
+    }
   } catch (error) {
     logger("[UPLOAD_FAIL] ", error)
+    return { success: false, message: "Upload failed." }
   }
 }

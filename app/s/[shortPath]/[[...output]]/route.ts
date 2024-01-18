@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation"
+import { ObjectId } from "mongodb"
 
 import { connectToBucket, connectToShortPathCollection } from "@/lib/mongodb"
 import { NextResponse } from "next/server"
 import { logger } from "@/lib/utils"
-import { ObjectId } from "mongodb"
 
 type GETProps = {
   params: {
@@ -34,6 +34,7 @@ export const GET = async (req: Request, { params }: GETProps) => {
     const output_format = params.output ? params.output.shift() : ""
 
     if (!file) return new NextResponse("File Not Found", { status: 404 })
+    const fileNameUrlSafe = encodeURI(file.filename)
 
     const fileStream = bucket.openDownloadStream(
       fileId
@@ -46,7 +47,7 @@ export const GET = async (req: Request, { params }: GETProps) => {
         return new NextResponse(fileStream, {
           status: 200,
           headers: {
-            "Content-Disposition": `attachment; filename=${file.filename}`,
+            "Content-Disposition": `attachment; filename=${fileNameUrlSafe}`,
           },
         })
       default:
