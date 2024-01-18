@@ -114,7 +114,7 @@ with token in headers.
  - ~~admin delete database confirmations~~
  - ~~and dashboard delete confirmations~~
  - ~~shorten the get link by add an api~~
- - auto fresh after upload is mess, only work locally with small file, fix it!
+ - auto fresh after upload is mess, only work locally with small file, try websocket.
  - review filenames and variables
  - port master version to 'mini' version or base-auth
  - ~~make a decent home page~~

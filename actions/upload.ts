@@ -10,7 +10,6 @@ import {
   getRandomString,
 } from "@/lib/mongodb"
 import { logger } from "@/lib/utils"
-import { NextResponse } from "next/server"
 
 export const upload = async (formData: FormData) => {
   try {
