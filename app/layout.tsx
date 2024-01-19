@@ -8,6 +8,7 @@ import "@/app/globals.css"
 
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
+import { SocketProvider } from "@/components/socket/provider"
 
 const nunito = Nunito({ subsets: ["latin"] })
 
@@ -29,7 +30,7 @@ export default function RootLayout({
       }}>
       <html lang='en' className='dark hide_scrollbar'>
         <body className={cn(nunito.className, "antialiased min-h-screen")}>
-          {children}
+          <SocketProvider>{children}</SocketProvider>
           <Toaster />
         </body>
       </html>

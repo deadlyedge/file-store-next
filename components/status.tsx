@@ -8,6 +8,7 @@ import { currentUser } from "@clerk/nextjs"
 import Image from "next/image"
 import { useEffect } from "react"
 import { io as ClientIO } from "socket.io-client"
+import { SocketIndicator } from "./socket/indicator"
 
 export const Status = () => {
   // const user = await currentUser()
@@ -19,23 +20,7 @@ export const Status = () => {
   //
   /////////////////////////////////
 
-  useEffect(() => {
-    const socketInstance = new (ClientIO as any)(
-      process.env.NEXT_PUBLIC_SITE_URL!,
-      {
-        path: "/api/socket/io",
-      }
-    )
 
-    // Send a message to the server
-    socketInstance.emit("chatMessage", "Hello, server!")
-    // Receive a message from the server
-    socketInstance.on("serverMessage", (message: string) => {
-      logger(`Server says: ${message}`)
-    })
-
-    return () => socketInstance.disconnect()
-  }, [])
 
   /////////////////////////////////
   // console.log(allInfo)
@@ -46,6 +31,7 @@ export const Status = () => {
       <Image src={avatar} alt='profile' width={50} height={50} />
       {email} */}
       hello socket!
+      <SocketIndicator />
     </div>
   )
 }

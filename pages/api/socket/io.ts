@@ -3,7 +3,13 @@ import { NextApiRequest } from "next"
 import { Server as ServerIO } from "socket.io"
 
 import { NextApiResponseServerIO } from "@/types"
-import { logger } from "@/lib/utils"
+import { delay, logger } from "@/lib/utils"
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
 
 const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (!res.socket.server.io) {

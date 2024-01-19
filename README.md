@@ -15,6 +15,7 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
  - nextjs
  - typescript
  - clerk
+ - socket.io (for live list refresh, websocket)
 
 sharp should be installed and the version must NOT be 0.33!
  `npm install sharp@0.32.6`

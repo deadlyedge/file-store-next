@@ -7,7 +7,7 @@ export default function DashboardPage() {
     <>
       <Header />
       <List />
-      {/* <Status /> */}
+      <Status />
     </>
   )
 }
