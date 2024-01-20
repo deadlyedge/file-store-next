@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    hostname: mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: <username>
+      MONGO_INITDB_ROOT_PASSWORD: <password>
+      MONGO_REPLICA_SET_NAME: rs0
+    volumes:
+      - mongodb-data:/data
+    ports:
+      - 57017:27017
+    networks:
+      - mongo-cluster
+    # healthcheck:
+    #   test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongodb'}]}) }" | mongosh --port 27017 --quiet
+    #   interval: 10s
+    #   timeout: 30s
+    #   start_period: 0s
+    #   start_interval: 1s
+    #   retries: 30
+    # command: 'mongod --replSet rs0 --bind_ip localhost,mongo --keyFile /data/keyfile'
+
+volumes:
+  mongodb-data:
+    external: true
+
+networks:
+  mongo-cluster:

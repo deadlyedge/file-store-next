@@ -20,7 +20,7 @@ export const SocketIndicator = () => {
   if (!isConnected) {
     return (
       <Badge variant='outline' className='bg-yellow-600 text-white border-none'>
-        连接降级: 每秒拉取
+        Offline
       </Badge>
     )
   }

@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
 import { List } from "@/components/list";
+import { SocketIndicator } from "@/components/socket/indicator";
 import { Status } from "@/components/status";
 
 export default function DashboardPage() {
@@ -7,7 +8,10 @@ export default function DashboardPage() {
     <>
       <Header />
       <List />
-      <Status />
+      {/* <Status /> */}
+      <div className="fixed left-0 bottom-0">
+        <SocketIndicator />
+      </div>
     </>
   )
 }

@@ -31,7 +31,6 @@ export const Status = () => {
       <Image src={avatar} alt='profile' width={50} height={50} />
       {email} */}
       hello socket!
-      <SocketIndicator />
     </div>
   )
 }
