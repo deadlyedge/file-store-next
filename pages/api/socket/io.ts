@@ -33,7 +33,7 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
 
       changeStream.on("change", (change: ChangeStreamEvents<Document>) => {
         // logger("Collection change detected:", change)
-        socket.emit("message", "change")
+        socket.emit("message", "update")
       })
 
       changeStream.on("close", () => {

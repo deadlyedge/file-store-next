@@ -42,6 +42,12 @@ export const POST = async (req: Request) => {
         message.notFound.push(id)
         continue
       }
+
+      if (file.user_id !== databaseName) {
+        message.notFound.push(id + "id not match")
+        continue
+      }
+
       await shortPathCollection.deleteOne({ _id: objectId })
       await bucket.delete(objectId)
       message.deleted.push(id)

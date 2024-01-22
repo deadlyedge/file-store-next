@@ -110,7 +110,7 @@ with token in headers.
 
 ## bug
 
- - api delete token and other account pics
+ - ~~api delete token and other account pics~~
 
 ## TODO
 
@@ -124,5 +124,6 @@ with token in headers.
  - port master version to 'mini' version or base-auth
  - ~~make a decent home page~~
  - /get route is deprecating (maybe not)
- - add token verification for apis
- - filename unicode support
+ - ~~add token verification for apis~~
+ - ~~filename unicode support~~
+ - finish upload api

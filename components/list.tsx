@@ -69,7 +69,7 @@ export const List = () => {
   return (
     <>
       <Add getData={getData} />
-      <div className="fixed left-0 bottom-0">
+      <div className="fixed z-40 left-0 bottom-0">
         <SocketIndicator getData={getData} />
       </div>
 

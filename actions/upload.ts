@@ -17,7 +17,7 @@ export const upload = async (formData: FormData) => {
     const { shortPathCollection } = await connectToShortPathCollection()
 
     const files: File[] = []
-    let counter = 0
+    // let counter = 0
     formData.forEach((value) => files.push(value as File))
 
     // map through all the entries
@@ -44,7 +44,7 @@ export const upload = async (formData: FormData) => {
           user_id: databaseName,
           shortPath: randomString,
         })
-        counter += 1
+        // counter += 1
       })
 
       // pipe the readable stream to a writeable stream to save it to the database
@@ -52,17 +52,17 @@ export const upload = async (formData: FormData) => {
     })
 
     // took me four days for this, had to MARK here!
-    while (counter < files.length) {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      logger("hold 1 seconds...")
-    }
+    // while (counter < files.length) {
+    //   await new Promise((resolve) => setTimeout(resolve, 1000))
+    //   logger("hold 1 seconds...")
+    // }
 
-    logger(`[UPLOAD_SUCCESS] ${counter} file(s) uploaded.`)
+    logger(`[UPLOAD_SUCCESS] ${files.length} file(s) uploaded.`)
 
     // return the response after all the entries have been processed.
     return {
       success: true,
-      message: `${counter} file(s) uploaded.`,
+      message: `${files.length} file(s) uploaded.`,
     }
   } catch (error) {
     logger("[UPLOAD_FAIL] ", error)
