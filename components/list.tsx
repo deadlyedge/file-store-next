@@ -9,6 +9,7 @@ import { listFiles } from "@/actions/list"
 import { Add } from "./add"
 import { Item } from "./item"
 import { DeleteButton } from "./deleteButton"
+import { SocketIndicator } from "./socket/indicator"
 
 export const List = () => {
   const [fileList, setFileList] = useState<FileInfoProps[]>([])
@@ -43,7 +44,8 @@ export const List = () => {
 
   // USE SERVER ACTIONS
   const handleDelete = () => {
-    deleteFiles(selected).then(() => getData())
+    deleteFiles(selected)
+    // deleteFiles(selected).then(() => getData())
   }
 
   useEffect(() => {
@@ -67,6 +69,9 @@ export const List = () => {
   return (
     <>
       <Add getData={getData} />
+      <div className="fixed left-0 bottom-0">
+        <SocketIndicator getData={getData} />
+      </div>
 
       <div className='flex flex-wrap items-center justify-center relative sm:justify-start mt-[138px] sm:mt-20'>
         {fileList.map((file: FileInfoProps, index) => (

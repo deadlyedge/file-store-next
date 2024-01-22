@@ -9,9 +9,6 @@ export default function DashboardPage() {
       <Header />
       <List />
       {/* <Status /> */}
-      <div className="fixed left-0 bottom-0">
-        <SocketIndicator />
-      </div>
     </>
   )
 }

@@ -4,7 +4,11 @@ import { useEffect, useState } from "react"
 import { useSocket } from "@/components/socket/provider"
 import { Badge } from "@/components/ui/badge"
 
-export const SocketIndicator = () => {
+type SocketIndicatorProps = {
+  getData: () => Promise<void>
+}
+
+export const SocketIndicator = ({ getData }: SocketIndicatorProps) => {
   const { socket, isConnected } = useSocket()
   const [message, setMessage] = useState("")
 
@@ -14,8 +18,9 @@ export const SocketIndicator = () => {
     }
     socket.on("message", (message: string) => {
       setMessage(message)
+      getData()
     })
-  }, [socket])
+  }, [getData, socket])
 
   if (!isConnected) {
     return (

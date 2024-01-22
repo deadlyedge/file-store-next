@@ -108,6 +108,10 @@ a POST method, a FormData stucture like:
 which means an Array of File with {filename: file} pair should be posted to the api
 with token in headers.
 
+## bug
+
+ - api delete token and other account pics
+
 ## TODO
 
  - ~~add timestamp for server log~~
@@ -115,7 +119,7 @@ with token in headers.
  - ~~admin delete database confirmations~~
  - ~~and dashboard delete confirmations~~
  - ~~shorten the get link by add an api~~
- - auto fresh after upload is mess, only work locally with small file, try websocket.
+ - auto fresh after upload is mess, only work locally with small file, try websocket. it seems works but i feel something not right...
  - review filenames and variables
  - port master version to 'mini' version or base-auth
  - ~~make a decent home page~~

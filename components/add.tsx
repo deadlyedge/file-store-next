@@ -23,11 +23,10 @@ export const Add = ({ getData }: AddProps) => {
     }
 
     startTransition(() => {
-      upload(formData)
-        .then((res) => {
-          logger(res)
-        })
-        .finally(getData)
+      upload(formData).then((res) => {
+        logger(res)
+      })
+      // .finally(getData)
     })
   }
 

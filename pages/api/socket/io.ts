@@ -32,7 +32,8 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       logger("Collection change stream created!")
 
       changeStream.on("change", (change: ChangeStreamEvents<Document>) => {
-        logger("Collection change detected:", change)
+        // logger("Collection change detected:", change)
+        socket.emit("message", "change")
       })
 
       changeStream.on("close", () => {
@@ -44,9 +45,9 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
         logger("Socket disconnected")
       })
     })
-    io.on("disconnect", () => {
-      logger("Client disconnected")
-    })
+    // io.on("disconnect", () => {
+    //   logger("Client disconnected")
+    // })
     res.socket.server.io = io
   }
   res.end()
