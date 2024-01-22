@@ -10,7 +10,6 @@ import {
   getRandomString,
 } from "@/lib/mongodb"
 import { logger } from "@/lib/utils"
-import { watchList } from "./watch"
 
 export const upload = async (formData: FormData) => {
   try {
@@ -38,8 +37,6 @@ export const upload = async (formData: FormData) => {
           shortPath: randomString,
         }, //add your metadata here if any
       })
-
-      watchList()
 
       stream.on("end", () => {
         shortPathCollection.insertOne({
