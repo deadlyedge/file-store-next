@@ -9,6 +9,8 @@ workload to it, and may make some test work easier.
 
 I choose mongodb with gridFS support, because I love mongo, and I have had a mongodb running, and it looks less code to write.
 
+function update hanging, start debugging...
+
 ## tech stacks
 
  - mongodb
