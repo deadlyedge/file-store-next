@@ -45,7 +45,7 @@ export default clientPromise
  */
 export const connectToBucket = async (dbName?: string) => {
   const client = await clientPromise
-  const databaseName = dbName || (await getDatabaseName())
+  const databaseName = dbName !== undefined ? dbName : await getDatabaseName()
 
   const db = client.db(databaseName)
   const bucket = new GridFSBucket(db)
@@ -143,11 +143,9 @@ export const getRandomString = async (len = DEFAULT_SHORT_PATH_LENGTH) => {
     str += pool.charAt(Math.floor(Math.random() * pool.length))
   }
 
-  const { db } = await connectToBucket()
+  const { shortPathCollection } = await connectToShortPathCollection()
 
-  const checkExist = await db
-    .collection("short_path")
-    .findOne({ shortPath: str })
+  const checkExist = await shortPathCollection.findOne({ shortPath: str })
 
   if (!checkExist) return { randomString: str }
 

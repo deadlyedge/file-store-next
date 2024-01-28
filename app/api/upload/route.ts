@@ -16,18 +16,20 @@ export const POST = async (req: Request) => {
   try {
     const formData = await req.formData()
     const token = req.headers.get("token")
-    if (!token) return new NextResponse("Unauthorized", { status: 401 })
+    if (!token) return new NextResponse("Need Token", { status: 401 })
 
     const { tokenTable } = await connectToTokenTable()
     const databaseName = await tokenTable
       .findOne({ token })
       .then((res) => res?.user_id)
 
+    if (!databaseName) return new NextResponse("Invalid Token", { status: 401 })
+
     const { bucket } = await connectToBucket(databaseName)
     const { shortPathCollection } = await connectToShortPathCollection()
 
     const files: File[] = []
-    let counter = 0
+    // let counter = 0
     formData.forEach((value) => files.push(value as File))
 
     // map through all the entries
@@ -54,19 +56,13 @@ export const POST = async (req: Request) => {
         shortPath: randomString,
       })
 
-      stream.on("close", () => {
-        counter += 1
-      })
+      // stream.on("close", () => {
+      //   counter += 1
+      // })
 
       // pipe the readable stream to a writeable stream to save it to the database
       stream.pipe(uploadStream)
     })
-
-    // took me four days form this, have to MARK here!
-    while (counter < files.length) {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      logger("hold a second...")
-    }
 
     logger(`[UPLOAD_SUCCESS:] ${files.length} files uploaded.`)
 

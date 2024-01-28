@@ -98,7 +98,7 @@ http://localhost:3000/api/delete
 
 ### /api/upload
 
-a POST method, a FormData stucture like:
+a POST method, a FormData stucture like: `name: value(file), name: value(file)...`
 
 ```typescript
     const formData = new FormData()
@@ -107,8 +107,8 @@ a POST method, a FormData stucture like:
       formData.append(file.name, file)
     }
 ```
-which means an Array of File with {filename: file} pair should be posted to the api
-with token in headers.
+which means an Array of File with {filename: file} pair should be posted to the api with 'token' in headers. the filename part doesn't matter, 'cause the file part should have all info.
+
 
 ## bug
 
@@ -121,11 +121,11 @@ with token in headers.
  - ~~admin delete database confirmations~~
  - ~~and dashboard delete confirmations~~
  - ~~shorten the get link by add an api~~
- - auto fresh after upload is mess, only work locally with small file, try websocket. it seems works but i feel something not right...
+ - ~~auto fresh after upload is mess, only work locally with small file, try websocket. it seems works but i feel something not right...~~
  - review filenames and variables
  - port master version to 'mini' version or base-auth
  - ~~make a decent home page~~
  - /get route is deprecating (maybe not)
  - ~~add token verification for apis~~
  - ~~filename unicode support~~
- - finish upload api
+ - ~~finish upload api~~

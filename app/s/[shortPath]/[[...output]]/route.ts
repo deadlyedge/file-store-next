@@ -31,7 +31,7 @@ export const GET = async (req: Request, { params }: GETProps) => {
     const { bucket } = await connectToBucket(userId)
 
     const file = (await bucket.find(fileId).toArray()).at(0)
-    const output_format = params.output ? params.output.shift() : ""
+    const output_format = params.output?.shift() || "" // noted 'if not'
 
     if (!file) return new NextResponse("File Not Found", { status: 404 })
     const fileNameUrlSafe = encodeURI(file.filename)
