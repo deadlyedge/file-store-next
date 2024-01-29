@@ -11,6 +11,10 @@ I choose mongodb with gridFS support, because I love mongo, and I have had a mon
 
 function update hanging, start debugging...
 
+## DEMO
+
+there is a demo site at: https://file.zick.me
+
 ## tech stacks
 
  - mongodb
