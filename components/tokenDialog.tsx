@@ -14,14 +14,29 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { getToken } from "@/actions/token"
+import { useToast } from "@/components/ui/use-toast"
+import { cn, delay } from "@/lib/utils"
 
 export const TokenDialog = () => {
   const [showToken, setShowToken] = useState("")
+  const [isCopied, setIsCopied] = useState(false)
+  const { toast } = useToast()
+
   const user = useUser()
   if (!user.isSignedIn) return null
 
   const handleMakeToken = () => getToken(true).then((res) => setShowToken(res))
   const handleGetToken = () => getToken().then((res) => setShowToken(res))
+
+  const copyText = (text: string) => {
+    navigator.clipboard.writeText(text)
+    setIsCopied(true)
+    toast({
+      title: "Token Copied",
+      description: text,
+    })
+    delay(2000).then(() => setIsCopied(false))
+  }
 
   return (
     <Dialog>
@@ -30,12 +45,8 @@ export const TokenDialog = () => {
         <DialogHeader>
           <DialogTitle>API MENU</DialogTitle>
           <DialogDescription>
-            This menu will be available soon. Stay tuned! 🚀 🚀 🚀
-            <br />
-            <br />
-            /api should be useful for upload/delete/list database, which is
-            hided and replaced with server action for now. but api is definitely
-            best choice for developers of course.
+            /api is useful for upload/delete/list database, and is definitely
+            best choice for developers.
             <br />
             <br />
             If you only want to &quot;get&quot; the file, just copy the [url] of
@@ -44,24 +55,40 @@ export const TokenDialog = () => {
             <br />
             And add
             <code className='bg-white/20 mx-1 px-1 rounded text-nowrap'>
-              ?output=json
+              /json
             </code>
-            at the end of urls for file info.
+            at the end of short urls for file info.
             <code className='bg-white/20 mx-1 px-1 rounded text-nowrap'>
-              ?output=download
+              /download
             </code>
             also supported.
             <br />
             <br />
-            Later I will try to add token here for other functions. Like below:
-            <br />
-            <br />
-            <span className='text=lg bg-green-300/10 rounded p-1 text-center'>
-              Your
-              <code className='bg-white/20 mx-1 px-1 rounded text-nowrap'>
-                ?token={showToken}
+            <span className='text=lg rounded p-1 text-center outline-none hover:outline-offset-1 hover:outline-2 hover:outline-orange-500 transition-all'>
+              Your token is:{" "}
+              <code
+                className={cn(
+                  "bg-white/20 mx-1 px-1 rounded text-nowrap",
+                  isCopied ? "bg-emerald-700 " : "bg-white/20"
+                )}
+                onClick={() => copyText(showToken)}>
+                {showToken}
               </code>
             </span>
+            <br />
+            <br />
+            So the api url should look like:
+            <code className='bg-white/20 mx-1 px-1 rounded'>
+              http://localhost:3000/api/list?token={showToken}
+            </code>
+            <br />
+            <br />
+            For more api usage, please try
+            <a href='https://github.com/deadlyedge/file-store-next/blob/master/README.md'>
+              {" "}
+              README.md{" "}
+            </a>
+            file at github.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

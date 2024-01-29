@@ -8,6 +8,7 @@ import { upload } from "@/actions/upload"
 import { logger } from "@/lib/utils"
 
 type AddProps = {
+  // with websocket events, this call seems no longer needed.
   getData: () => Promise<void>
 }
 

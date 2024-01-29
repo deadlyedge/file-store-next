@@ -9,6 +9,9 @@ export const listFiles = async (userId?: string) => {
   const { bucket } = await connectToBucket(userId)
 
   const files = await bucket.find().toArray()
+
+  if (!files) return []
+
   const output: FileInfoProps[] = files.map((file) => ({
     id: String(file._id),
     filename: file.filename,

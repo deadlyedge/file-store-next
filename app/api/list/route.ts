@@ -12,12 +12,15 @@ export const dynamic = "force-dynamic"
 
 export const GET = async (req: NextRequest) => {
   const token = req.nextUrl.searchParams.get("token")
-  if (!token) return new NextResponse("Unauthorized", { status: 401 })
+  if (!token) return new NextResponse("Need Token", { status: 401 })
 
   const { tokenTable } = await connectToTokenTable()
   const databaseName = await tokenTable
     .findOne({ token })
     .then((res) => res?.user_id)
+
+  if (!databaseName) return new NextResponse("Invalid Token", { status: 401 })
+
   const { bucket } = await connectToBucket(databaseName)
 
   const files = await bucket.find().toArray()

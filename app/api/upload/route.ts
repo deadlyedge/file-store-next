@@ -10,7 +10,7 @@ import {
   connectToTokenTable,
   getRandomString,
 } from "@/lib/mongodb"
-import { encodeStrings, logger } from "@/lib/utils"
+import { logger } from "@/lib/utils"
 
 export const POST = async (req: Request) => {
   try {
@@ -29,7 +29,6 @@ export const POST = async (req: Request) => {
     const { shortPathCollection } = await connectToShortPathCollection()
 
     const files: File[] = []
-    // let counter = 0
     formData.forEach((value) => files.push(value as File))
 
     // map through all the entries
@@ -55,10 +54,6 @@ export const POST = async (req: Request) => {
         user_id: databaseName,
         shortPath: randomString,
       })
-
-      // stream.on("close", () => {
-      //   counter += 1
-      // })
 
       // pipe the readable stream to a writeable stream to save it to the database
       stream.pipe(uploadStream)

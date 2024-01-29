@@ -23,12 +23,14 @@ type MessageProps = {
 export const POST = async (req: Request) => {
   try {
     const { fileIds, token } = (await req.json()) as POSTProps
-    if (!token) return new NextResponse("Unauthorized", { status: 401 })
+    if (!token) return new NextResponse("Need Token", { status: 401 })
 
     const { tokenTable } = await connectToTokenTable()
     const databaseName = await tokenTable
       .findOne({ token })
       .then((res) => res?.user_id)
+
+    if (!databaseName) return new NextResponse("Invalid Token", { status: 401 })
 
     const { bucket } = await connectToBucket(databaseName)
     const { shortPathCollection } = await connectToShortPathCollection()
@@ -44,7 +46,7 @@ export const POST = async (req: Request) => {
       }
 
       if (file.user_id !== databaseName) {
-        message.notFound.push(id + "id not match")
+        message.notFound.push("[id not match]" + id)
         continue
       }
 

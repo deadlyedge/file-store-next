@@ -1,6 +1,6 @@
 "use client"
 /**
- * this is a component only made for debug.
+ * this is a component only made for debug and test.
  */
 
 import { logger } from "@/lib/utils"

@@ -33,6 +33,7 @@ export const formatBytes = (bytes: number, decimals = 1) => {
 
 /**
  * encode fileId and databaseName to a uri safe string.
+ * nobody calls me, strange...
  * @param {fileId: string, databaseName: string}
  * @returns
  */

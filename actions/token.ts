@@ -24,7 +24,7 @@ export const getToken = async (make: boolean = false) => {
     .findOne({ user_id: databaseName })
     .then((res) => res?.token)
 
-  logger(`Last token: ${lastToken}`)
+  // logger(`Last token: ${lastToken}`)
   if (!lastToken) {
     const token = UUID()
     await tokenTable.insertOne({ token, user_id: databaseName })

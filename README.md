@@ -26,6 +26,10 @@ use both API routes and server actions for practise.
 
 ## enviroments
 
+before start everything, you should make sure that your mongodb has 'replication' support, 'cause we need 'changeStreamEvent' to refresh lists.
+
+for more information about setup a mongodb with replicaSet, I wrote a short note about it in references folder.
+
 here's my building compose file.
 
 ```yaml
@@ -113,6 +117,8 @@ which means an Array of File with {filename: file} pair should be posted to the 
 ## bug
 
  - ~~api delete token and other account pics~~
+ - after upload using api, dashboard select and delete function will be broke. until refresh the whole page or after a very long time.
+ - upload session need lot of list refresh, more than it should be needed.
 
 ## TODO
 

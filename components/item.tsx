@@ -13,7 +13,7 @@ import {
 } from "lucide-react"
 
 import { FileInfoProps } from "@/types"
-import { cn, formatBytes, delay, encodeStrings } from "@/lib/utils"
+import { cn, formatBytes, delay } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
 import { Toggle } from "@/components/ui/toggle"
 import { Button } from "@/components/ui/button"

@@ -51,7 +51,8 @@ export const upload = async (formData: FormData) => {
       stream.pipe(uploadStream)
     })
 
-    // took me four days for this, had to MARK here!
+    // took me four days for this, had to MARK here! 
+    // but it's been replaced by websocket...
     // while (counter < files.length) {
     //   await new Promise((resolve) => setTimeout(resolve, 1000))
     //   logger("hold 1 seconds...")
