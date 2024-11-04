@@ -24,7 +24,7 @@ services:
     #   start_period: 0s
     #   start_interval: 1s
     #   retries: 30
-    # command: 'mongod --replSet rs0 --bind_ip localhost,mongo --keyFile /data/keyfile'
+    # command: 'mongod --replSet rs0 --bind_ip_all --keyFile /data/keyfile'
 
 volumes:
   mongodb-data:
@@ -32,3 +32,5 @@ volumes:
 
 networks:
   mongo-cluster:
+    external: true
+    name: mongo-cluster

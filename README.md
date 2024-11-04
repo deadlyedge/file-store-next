@@ -132,10 +132,11 @@ which means an Array of File with {filename: file} pair should be posted to the 
  - ~~and dashboard delete confirmations~~
  - ~~shorten the get link by add an api~~
  - ~~auto fresh after upload is mess, only work locally with small file, try websocket. it seems works but i feel something not right...~~
- - review filenames and variables
- - port master version to 'mini' version or base-auth
  - ~~make a decent home page~~
- - /get route is deprecating (maybe not)
  - ~~add token verification for apis~~
  - ~~filename unicode support~~
  - ~~finish upload api~~
+ - /get route is deprecating (maybe not)
+ - review filenames and variables
+ - port master version to 'mini' version or base-auth
+ - add sign-up lock to admin panel which could stop adding new users

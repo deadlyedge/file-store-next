@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { Nunito } from "next/font/google"
-import { ClerkProvider } from "@clerk/nextjs"
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs"
 import { zhCN } from "@clerk/localizations"
 import { dark } from "@clerk/themes"
 
@@ -30,8 +30,18 @@ export default function RootLayout({
       }}>
       <html lang='en' className='dark hide_scrollbar'>
         <body className={cn(nunito.className, "antialiased min-h-screen")}>
-          <SocketProvider>{children}</SocketProvider>
-          <Toaster />
+          {/* <header>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </header> */}
+          <main>
+            <SocketProvider>{children}</SocketProvider>
+            <Toaster />
+          </main>
         </body>
       </html>
     </ClerkProvider>

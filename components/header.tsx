@@ -1,5 +1,6 @@
 import { Whisper } from "next/font/google"
-import { UserButton, currentUser } from "@clerk/nextjs"
+import { UserButton } from "@clerk/nextjs"
+import { currentUser } from "@clerk/nextjs/server"
 
 import { cn } from "@/lib/utils"
 import { TokenDialog } from "./tokenDialog"
@@ -19,7 +20,9 @@ export const Header = async () => {
       <div className='w-full h-36 sm:h-20 right-0 top-0 fixed z-10 bg-zinc-500/40'>
         <div className='mt-[70px] sm:ml-52 lg:ml-[390px] sm:my-auto p-2 w-40 sm:w-80 h-20 flex flex-row justify-start items-center border-zinc-500 text-zinc-200'>
           <div className='z-50 text-center'>
-            <div className="bg-white/10 rounded py-1 px-2 shadow-md"><UserButton afterSignOutUrl='/' showName /></div>
+            <div className='bg-white/10 rounded py-1 px-2 shadow-md'>
+              <UserButton afterSignOutUrl='/' showName />
+            </div>
             <div className='hidden sm:block'>
               <TokenDialog />
             </div>
